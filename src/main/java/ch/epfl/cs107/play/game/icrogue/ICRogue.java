@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 public class ICRogue extends AreaGame {
@@ -28,7 +29,6 @@ public class ICRogue extends AreaGame {
         addArea(currentRoom);
         setCurrentArea(currentRoom.getTitle(), true); // 1er argument ?
         player = new ICRoguePlayer(currentRoom, Orientation.UP, new DiscreteCoordinates(2,2), "zelda/player");
-        player.enterArea(currentRoom, new DiscreteCoordinates(2,2));
     }
 
     @Override
@@ -44,6 +44,10 @@ public class ICRogue extends AreaGame {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        Keyboard keyboard = getWindow().getKeyboard();
+        if(keyboard.get(Keyboard.R).isDown()){
+            initLevel();
+        }
     }
 
     @Override

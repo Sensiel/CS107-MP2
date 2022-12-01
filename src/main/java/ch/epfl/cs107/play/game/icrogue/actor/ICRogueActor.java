@@ -13,6 +13,7 @@ public abstract class ICRogueActor extends MovableAreaEntity {
 
     public ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
+        enterArea(owner, coordinates);
         resetMotion();
     }
 

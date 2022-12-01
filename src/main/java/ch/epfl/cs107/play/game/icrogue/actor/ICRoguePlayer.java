@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.icrogue.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -43,6 +44,10 @@ public class ICRoguePlayer extends ICRogueActor{
         moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+
+        if(keyboard.get(Keyboard.X).isDown()){
+            Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
+        }
     }
 
     private void moveIfPressed(Orientation orientation, Button b){
