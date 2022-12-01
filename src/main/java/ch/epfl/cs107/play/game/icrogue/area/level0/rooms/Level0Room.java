@@ -13,12 +13,12 @@ public class Level0Room extends ICRogueRoom {
     protected void createArea() {
         // Base
 
-        registerActor(new Background(this, getBehaviorName())) ;
+        registerActor(new Background(this, getBehaviorName()));
         //registerActor(new ICRoguePlayer(new Vector(20, 10), "ghost.2"));
     }
 
 
     public String getTitle(){
-        return "icrogue/level001";//comment concat x et y
+        return "icrogue/level0" + getRoomCoordinates().x + getRoomCoordinates().y;
     }
 }

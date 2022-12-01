@@ -10,7 +10,6 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class ICRogueRoom extends Area {
     private DiscreteCoordinates roomCoordinates;
     private String behaviorName;
-
     private ICRogueBehavior behavior;
     public ICRogueRoom(String behaviorName, DiscreteCoordinates roomCoordinates) {
         this.behaviorName = behaviorName;
@@ -29,11 +28,14 @@ public abstract class ICRogueRoom extends Area {
         }
         return false;
     }
+
     protected abstract void createArea();
-
-
     public final float getCameraScaleFactor() {
         return ICRogue.CAMERA_SCALE_FACTOR;
+    }
+
+    public DiscreteCoordinates getRoomCoordinates() {
+        return roomCoordinates;
     }
 }
 

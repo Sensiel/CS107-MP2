@@ -62,9 +62,19 @@ public class ICRogueBehavior extends AreaBehavior{
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            if(entity.takeCellSpace()){
+            if(!type.isWalkable)
                 return false;
-            } else { return type.isWalkable; }
+            if(!entity.takeCellSpace()) {
+                return true;
+            }
+
+            for(Interactable currEntity : entities) {
+                if (currEntity.takeCellSpace()) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 
