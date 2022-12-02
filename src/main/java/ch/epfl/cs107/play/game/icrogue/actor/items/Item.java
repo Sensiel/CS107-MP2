@@ -1,41 +1,39 @@
-package ch.epfl.cs107.play.game.icrogue.actor;
+package ch.epfl.cs107.play.game.icrogue.actor.items;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
+import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ICRogueActor extends MovableAreaEntity {
+public abstract class Item extends CollectableAreaEntity {
 
-    public ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
-        super(owner, orientation, coordinates);
-        enterArea(owner, coordinates);
-        resetMotion();
+    private Sprite item;
+
+    public Item(Area area, Orientation orientation, DiscreteCoordinates position) {
+        super(area, orientation, position);
     }
 
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
+    public void setSprite(Sprite sprite){
+        item=sprite;
     }
 
-    public void leaveArea(){
-        getOwnerArea().unregisterActor(this);
-    }
-
-    public void enterArea(Area area, DiscreteCoordinates position){
-        area.registerActor(this);
-        setOwnerArea(area);
-        setCurrentPosition(position.toVector());
-        resetMotion();
-    }
 
     @Override
     public boolean takeCellSpace() {
         return false;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if(!isCollected()){
+            item.draw(canvas);
+        }
     }
 
     @Override
@@ -56,4 +54,3 @@ public abstract class ICRogueActor extends MovableAreaEntity {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
     }
 }
-
