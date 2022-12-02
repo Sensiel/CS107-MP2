@@ -1,9 +1,15 @@
 package ch.epfl.cs107.play.game.icrogue.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
+import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -11,13 +17,20 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-public class ICRoguePlayer extends ICRogueActor{
+import java.util.Collections;
+import java.util.List;
+
+public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     //Durée de mouvement
     private final static int MOVE_DURATION = 8;
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
     private Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
+
+    private ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+
+    private boolean ownStaff = false;
 
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
@@ -32,7 +45,7 @@ public class ICRoguePlayer extends ICRogueActor{
             new Sprite(spriteName, .75f, 1.5f, this,
                 new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f))
         };
-
+        setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
     }
 
     @Override
@@ -45,7 +58,7 @@ public class ICRoguePlayer extends ICRogueActor{
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
-        if(keyboard.get(Keyboard.X).isDown()){
+        if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
         }
     }
@@ -57,11 +70,12 @@ public class ICRoguePlayer extends ICRogueActor{
                 move(MOVE_DURATION);
             }
         }
+        setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        spriteOrientated[getSpriteIndexFromOrientation(getOrientation())].draw(canvas);
+        getSprite().draw(canvas);
     }
 
     private int getSpriteIndexFromOrientation(Orientation orientation){
@@ -71,5 +85,62 @@ public class ICRoguePlayer extends ICRogueActor{
             case DOWN -> 2;
             case LEFT -> 3;
         };
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getCurrentCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICRogueInteractionHandler) v).interactWith(this , isCellInteraction);
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        Keyboard keyboard= getOwnerArea().getKeyboard();
+        return keyboard.get(Keyboard.W).isDown();
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+        other.acceptInteraction(handler, isCellInteraction);
+    }
+
+    @Override
+    public boolean takeCellSpace() {
+        return true;
+    }
+
+    public boolean ownStaff() {
+        return ownStaff;
+    }
+
+    private class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler{
+        @Override
+        public void interactWith(Cherry cherry, boolean isCellInteraction) {
+            if(isCellInteraction){
+                cherry.collect();
+            }
+        }
+
+        @Override
+        public void interactWith(Staff staff, boolean isCellInteraction) {
+            if(!isCellInteraction){
+                ownStaff = true;
+                staff.collect();
+            }
+        }
     }
 }

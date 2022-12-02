@@ -19,7 +19,6 @@ public class Level0Room extends ICRogueRoom {
         registerActor(new Background(this, getBehaviorName()));
         registerActor(new Cherry(this, Orientation.DOWN,new DiscreteCoordinates(6,3)));
         registerActor(new Staff(this,Orientation.DOWN,new DiscreteCoordinates(4,3)));
-        //registerActor(new ICRoguePlayer(new Vector(20, 10), "ghost.2"));
     }
 
 

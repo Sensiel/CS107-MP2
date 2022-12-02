@@ -3,7 +3,9 @@ package ch.epfl.cs107.play.game.icrogue.actor;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.Collections;
@@ -11,6 +13,7 @@ import java.util.List;
 
 public abstract class ICRogueActor extends MovableAreaEntity {
 
+    private Sprite sprite;
     public ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
         enterArea(owner, coordinates);
@@ -47,13 +50,13 @@ public abstract class ICRogueActor extends MovableAreaEntity {
     public boolean isViewInteractable() {
         return false;
     }
-    @Override
-    public List<DiscreteCoordinates> getCurrentCells() {
-        return Collections.singletonList(getCurrentMainCellCoordinates());
+
+    public Sprite getSprite() {
+        return sprite;
     }
 
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 }
 

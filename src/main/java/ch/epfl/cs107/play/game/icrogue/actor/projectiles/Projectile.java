@@ -1,19 +1,21 @@
 package ch.epfl.cs107.play.game.icrogue.actor.projectiles;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRogueActor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-public abstract class Projectile extends ICRogueActor implements Consumable {
+import java.util.Collections;
+import java.util.List;
+
+public abstract class Projectile extends ICRogueActor implements Consumable, Interactor {
     public final static int DEFAULT_DAMAGE = 1;
     public final static int DEFAULT_MOVE_DURATION = 10;
     private int frameForMove;
     private int damage;
     private boolean isConsumed;
-
-    private Sprite sprite;
 
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         this(owner, orientation, coordinates, DEFAULT_DAMAGE, DEFAULT_MOVE_DURATION);
@@ -29,15 +31,9 @@ public abstract class Projectile extends ICRogueActor implements Consumable {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(!isDisplacementOccurs()){ // peut être mettre ça dans fire plutot que dans la classe abstract
-            if(!move(frameForMove)){
-                consume();
-            }
+        if(!isDisplacementOccurs()){
+            move(frameForMove);
         }
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
     }
 
     @Override
@@ -55,7 +51,23 @@ public abstract class Projectile extends ICRogueActor implements Consumable {
         return false;
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    @Override
+    public List<DiscreteCoordinates> getCurrentCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return true;
     }
 }
