@@ -65,6 +65,9 @@ public class Connector extends AreaEntity implements Interactable {
     public void setState(State state){
         this.state=state;
     }
+    public State getState(){
+        return state;
+    }
 
     public void setDestinationTitle(String areaTitle){
         destinationTitle=areaTitle;
