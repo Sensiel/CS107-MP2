@@ -68,7 +68,7 @@ public class Level0Room extends ICRogueRoom {
 
 
     protected void createArea() {
-        super.createArea(); // oui ou non ?
+        super.createArea();
         // Base
 
         registerActor(new Background(this, getBehaviorName()));
