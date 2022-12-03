@@ -2,13 +2,11 @@ package ch.epfl.cs107.play.game.icrogue.area.level0.rooms;
 
 import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.area.ConnectorInRoom;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +24,9 @@ public class Level0Room extends ICRogueRoom {
 
 
         Level0Connectors(DiscreteCoordinates connectorCoordinates, DiscreteCoordinates roomCoordinates, Orientation orientation) {
-            this.connectorCoordinates=connectorCoordinates;
-            this.roomCoordinates=roomCoordinates;
-            this.orientation=orientation;
+            this.connectorCoordinates = connectorCoordinates;
+            this.roomCoordinates = roomCoordinates;
+            this.orientation = orientation;
         }
 
         @Override
@@ -41,24 +39,23 @@ public class Level0Room extends ICRogueRoom {
             return connectorCoordinates;
         }
         public Orientation getOrientation(){
-            return orientation;}
+            return orientation;
+        }
 
         public static List<Orientation> getAllConnectorsOrientation() {
-            ArrayList result = new ArrayList<Orientation>();
-            result.add(W.getOrientation());
-            result.add(S.getOrientation());
-            result.add(E.getOrientation());
-            result.add(N.getOrientation());
+            ArrayList<Orientation> result = new ArrayList<>();
+            for(Level0Connectors connectors : values()){
+                result.add(connectors.getOrientation());
+            }
             return result;
-            } // c'est merdique comme encapsulation, tu sais comment je peux améliorer ?
+        }
         public static List<DiscreteCoordinates> getAllConnectorsPosition(){
-            ArrayList result = new ArrayList<Orientation>();
-            result.add(W.getDestination());
-            result.add(S.getDestination());
-            result.add(E.getDestination());
-            result.add(N.getDestination());
+            ArrayList<DiscreteCoordinates> result = new ArrayList<>();
+            for(Level0Connectors connectors : values()){
+                result.add(connectors.getDestination());
+            }
             return result;
-        } // same :/
+        }
     }
 
     public Level0Room(DiscreteCoordinates roomCoordinates){

@@ -21,18 +21,19 @@ public abstract class ICRogueRoom extends Area {
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
                        String behaviorName, DiscreteCoordinates roomCoordinates){
-        tab= new ArrayList<Connector>();
-        for(int i =0; i<connectorsCoordinates.size();++i){
-            tab.add(i,new Connector(this,orientations.get(i),connectorsCoordinates.get(i)));
+        tab = new ArrayList<Connector>();
+        for(int i = 0; i< connectorsCoordinates.size(); ++i){
+            tab.add(new Connector(this, orientations.get(i), connectorsCoordinates.get(i)));
         }
         this.behaviorName = behaviorName;
         this.roomCoordinates = roomCoordinates;
-
     }
 
 
 
-    public String getBehaviorName(){return behaviorName;}
+    public String getBehaviorName(){
+        return behaviorName;
+    }
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -47,7 +48,7 @@ public abstract class ICRogueRoom extends Area {
     }
 
     protected void createArea() {
-        for (int i = 0; i < tab.size(); ++i) {
+        for(int i = 0; i < tab.size(); ++i) {
             registerActor(tab.get(i));
         }
     }
@@ -64,31 +65,26 @@ public abstract class ICRogueRoom extends Area {
         super.update(deltaTime);
         Keyboard keyboard = this.getKeyboard();
 
-        if (keyboard.get(Keyboard.O).isDown()){
-
-            for(int i =0;i<tab.size();++i){
-                tab.get(i).setState(Connector.State.OPEN);
+        if (keyboard.get(Keyboard.O).isPressed()) {
+            for (Connector connector : tab) {
+                connector.setState(Connector.State.OPEN);
+                connector.setKeyID(Connector.NO_KEY_ID);
             }
-
-        } else if(keyboard.get(Keyboard.L).isDown()){
+        }
+        if(keyboard.get(Keyboard.L).isPressed()){
             tab.get(0).setState(Connector.State.LOCKED);
+            tab.get(0).setKeyID(1);
+        }
+        if(keyboard.get(Keyboard.T).isPressed()) {
+            for (Connector connector : tab) {
+                if (connector.getState().equals(Connector.State.CLOSED)) {
+                    connector.setState(Connector.State.OPEN);
 
-
-        } else if (keyboard.get(Keyboard.T).isDown()) {
-
-            for(int i =0;i<tab.size();++i){
-
-                if(tab.get(i).getState().equals(Connector.State.CLOSED)){
-                    tab.get(i).setState(Connector.State.OPEN);
-
-                } else if (tab.get(i).getState().equals(Connector.State.OPEN)) {
-                    tab.get(i).setState(Connector.State.CLOSED);
+                } else if (connector.getState().equals(Connector.State.OPEN)) {
+                    connector.setState(Connector.State.CLOSED);
                 }
             }
-            
         }
-
-
     }
 }
 

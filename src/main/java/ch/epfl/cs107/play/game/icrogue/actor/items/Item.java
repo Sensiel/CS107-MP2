@@ -21,7 +21,7 @@ public abstract class Item extends CollectableAreaEntity {
     }
 
     public void setSprite(Sprite sprite){
-        item=sprite;
+        item = sprite;
     }
 
 
@@ -49,10 +49,5 @@ public abstract class Item extends CollectableAreaEntity {
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
-    }
-
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        ((ICRogueInteractionHandler) v).interactWith(this , isCellInteraction);
     }
 }

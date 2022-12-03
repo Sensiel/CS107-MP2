@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.icrogue.handler;
 
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
+import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
@@ -28,6 +29,10 @@ public interface ICRogueInteractionHandler extends AreaInteractionVisitor {
 
     }
     default void interactWith(Key key,boolean isCellInteraction){
+
+    }
+
+    default void interactWith(Connector connector, boolean isCellInteraction){
 
     }
 }
