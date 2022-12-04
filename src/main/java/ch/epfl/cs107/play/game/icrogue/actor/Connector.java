@@ -66,9 +66,17 @@ public class Connector extends AreaEntity implements Interactable {
         posDest = pos;
     }
 
+    public String getDestTitle() {
+        return destTitle;
+    }
+
     public void setKeyID(int id){
         keyID = id;
     }
+    public int getKeyID() {
+        return keyID;
+    }
+
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
@@ -83,7 +91,7 @@ public class Connector extends AreaEntity implements Interactable {
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return true;
     }
 
     @Override

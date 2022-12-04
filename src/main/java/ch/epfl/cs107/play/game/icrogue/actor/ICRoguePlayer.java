@@ -18,6 +18,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,14 +29,17 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
     private Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
+    private ArrayList<Integer> keyIds;
 
     private ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
 
     private boolean ownStaff = false;
 
+    private boolean isChangingRoom;
+    private String nextArea = "";
+
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
-
         spriteOrientated = new Sprite[]{
             new Sprite(spriteName, .75f, 1.5f, this,
                 new RegionOfInterest(0, 64, 16, 32), new Vector(.15f, -.15f)),
@@ -47,6 +51,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f))
         };
         setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
+        keyIds = new ArrayList<Integer>();
+        isChangingRoom = false;
     }
 
     @Override
@@ -58,6 +64,10 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+
+        if(keyboard.get(Keyboard.P).isPressed()){ // pour afficher debug
+            System.out.println(getOwnerArea().canEnterAreaCells(this, getFieldOfViewCells()));
+        }
 
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
@@ -128,6 +138,18 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return ownStaff;
     }
 
+    public boolean isChangingRoom() {
+        return isChangingRoom;
+    }
+
+    public void setChangingRoom(boolean changingRoom) {
+        isChangingRoom = changingRoom;
+    }
+
+    public String getNextArea() {
+        return nextArea;
+    }
+
     private class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler{
         @Override
         public void interactWith(Cherry cherry, boolean isCellInteraction) {
@@ -148,6 +170,23 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         public void interactWith(Key key, boolean isCellInteraction) {
             if(isCellInteraction){
                 key.collect();
+                keyIds.add(key.getId());
+            }
+        }
+
+        @Override
+        public void interactWith(Connector connector, boolean isCellInteraction){
+            if(isCellInteraction && !isDisplacementOccurs()){
+                setChangingRoom(true);
+                nextArea = connector.getDestTitle();
+            }
+            else if(!isCellInteraction){
+                if(connector.getState().equals(Connector.State.LOCKED)  && keyIds.contains(connector.getKeyID())){
+                    connector.setState(Connector.State.OPEN);
+                }
+                else if(connector.getState().equals(Connector.State.CLOSED)){
+                    connector.setState(Connector.State.OPEN);
+                }
             }
         }
     }

@@ -21,7 +21,7 @@ public abstract class ICRogueRoom extends Area {
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
                        String behaviorName, DiscreteCoordinates roomCoordinates){
-        tab = new ArrayList<Connector>();
+        tab = new ArrayList<>();
         for(int i = 0; i< connectorsCoordinates.size(); ++i){
             tab.add(new Connector(this, orientations.get(i), connectorsCoordinates.get(i)));
         }
@@ -48,8 +48,8 @@ public abstract class ICRogueRoom extends Area {
     }
 
     protected void createArea() {
-        for(int i = 0; i < tab.size(); ++i) {
-            registerActor(tab.get(i));
+        for (Connector connector : tab) {
+            registerActor(connector);
         }
     }
     public final float getCameraScaleFactor() {
@@ -60,6 +60,18 @@ public abstract class ICRogueRoom extends Area {
         return roomCoordinates;
     }
 
+    public void setConnectorDestination(ConnectorInRoom connector, String dest){
+        tab.get(connector.getIndex()).setDestTitle(dest);
+    }
+
+    public void setConnectorState(ConnectorInRoom connector, Connector.State state){
+        tab.get(connector.getIndex()).setState(state);
+    }
+
+    public void setConnectorKeyID(ConnectorInRoom connector, int keyID){
+        tab.get(connector.getIndex()).setKeyID(keyID);
+    }
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -68,7 +80,6 @@ public abstract class ICRogueRoom extends Area {
         if (keyboard.get(Keyboard.O).isPressed()) {
             for (Connector connector : tab) {
                 connector.setState(Connector.State.OPEN);
-                connector.setKeyID(Connector.NO_KEY_ID);
             }
         }
         if(keyboard.get(Keyboard.L).isPressed()){

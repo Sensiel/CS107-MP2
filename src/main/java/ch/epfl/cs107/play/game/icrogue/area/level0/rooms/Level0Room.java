@@ -19,27 +19,29 @@ public class Level0Room extends ICRogueRoom {
         N(new DiscreteCoordinates(4, 9), new DiscreteCoordinates(5, 1),Orientation.UP) ;
 
         private DiscreteCoordinates connectorCoordinates;
-        private DiscreteCoordinates roomCoordinates;
+        private DiscreteCoordinates destCoordinates;
         private Orientation orientation;
 
 
-        Level0Connectors(DiscreteCoordinates connectorCoordinates, DiscreteCoordinates roomCoordinates, Orientation orientation) {
+        Level0Connectors(DiscreteCoordinates connectorCoordinates, DiscreteCoordinates destCoordinates, Orientation orientation) {
             this.connectorCoordinates = connectorCoordinates;
-            this.roomCoordinates = roomCoordinates;
+            this.destCoordinates = destCoordinates;
             this.orientation = orientation;
         }
 
-        @Override
         public int getIndex() {
             return ordinal();
         }
 
-        @Override
         public DiscreteCoordinates getDestination() {
-            return connectorCoordinates;
+            return destCoordinates;
         }
         public Orientation getOrientation(){
             return orientation;
+        }
+
+        public DiscreteCoordinates getConnectorCoordinates() {
+            return connectorCoordinates;
         }
 
         public static List<Orientation> getAllConnectorsOrientation() {
@@ -49,13 +51,16 @@ public class Level0Room extends ICRogueRoom {
             }
             return result;
         }
+
         public static List<DiscreteCoordinates> getAllConnectorsPosition(){
             ArrayList<DiscreteCoordinates> result = new ArrayList<>();
             for(Level0Connectors connectors : values()){
-                result.add(connectors.getDestination());
+                result.add(connectors.getConnectorCoordinates());
             }
             return result;
         }
+
+
     }
 
     public Level0Room(DiscreteCoordinates roomCoordinates){
@@ -69,8 +74,8 @@ public class Level0Room extends ICRogueRoom {
         // Base
 
         registerActor(new Background(this, getBehaviorName()));
-        registerActor(new Cherry(this, Orientation.DOWN,new DiscreteCoordinates(6,3)));
-        registerActor(new Staff(this,Orientation.DOWN,new DiscreteCoordinates(4,3)));
+        /*registerActor(new Cherry(this, Orientation.DOWN,new DiscreteCoordinates(6,3)));
+        registerActor(new Staff(this,Orientation.DOWN,new DiscreteCoordinates(4,3)));*/
     }
 
 
