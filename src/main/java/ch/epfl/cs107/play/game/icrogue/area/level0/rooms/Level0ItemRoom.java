@@ -28,11 +28,10 @@ public abstract class Level0ItemRoom extends Level0Room {
             registerActor(item);
         }
     }
-/*
+
     @Override
     public boolean isOn() {
-        super.isOn();
-        if(collectedItems.size() == items.size()){
+        if(collectedItems.size() == items.size() && super.isOn()){
             return true;
         } else { return false; }
     }
@@ -40,6 +39,4 @@ public abstract class Level0ItemRoom extends Level0Room {
     public boolean isOff() {
         return (!isOn());
     }
-
- */
 }

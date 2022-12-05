@@ -29,6 +29,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
         }
         this.behaviorName = behaviorName;
         this.roomCoordinates = roomCoordinates;
+        isRoomVisited = false ;
     }
 
     public void setIsRoomVisited(boolean value){
