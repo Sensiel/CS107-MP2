@@ -174,7 +174,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(!isCellInteraction){
                 ownStaff = true;
                 staff.collect();
-                ((Level0ItemRoom)getOwnerArea()).addCollectedItems(staff);
             }
         }
 
@@ -183,7 +182,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction){
                 key.collect();
                 keyIds.add(key.getId());
-                ((Level0ItemRoom)getOwnerArea()).addCollectedItems(key);
             }
         }
 
@@ -194,13 +192,14 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 nextArea = connector.getDestTitle();
             }
             else if(!isCellInteraction){
-                if(connector.getState().equals(Connector.State.LOCKED)  && keyIds.contains(connector.getKeyID()) && ((Level0ItemRoom)getOwnerArea()).isOn()){
+                if(connector.getState().equals(Connector.State.LOCKED)  && ((Level0KeyRoom)getOwnerArea()).isOn()){
                     connector.setState(Connector.State.OPEN);
                 }
                 else if(connector.getState().equals(Connector.State.CLOSED)){
                     connector.setState(Connector.State.OPEN);
                 }
             }
+            //&& keyIds.contains(connector.getKeyID())
         }
     }
 }

@@ -14,7 +14,6 @@ public class Level0KeyRoom extends Level0ItemRoom{
     private Key key;
     @Override
     public boolean isOn() {
-        super.isOn();
         if(key.isCollected()){
             return true;
         } else { return false; }

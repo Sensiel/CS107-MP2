@@ -14,7 +14,6 @@ public class Level0StaffRoom extends Level0ItemRoom{
     private Staff staff;
     @Override
     public boolean isOn() {
-        super.isOn();
         if(staff.isCollected()){
             return true;
         } else { return false; }

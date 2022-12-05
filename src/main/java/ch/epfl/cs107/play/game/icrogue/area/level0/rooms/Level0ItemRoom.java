@@ -9,7 +9,6 @@ public abstract class Level0ItemRoom extends Level0Room {
     public Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         items = new ArrayList<>();
-        collectedItems = new ArrayList<>();
     }
 
     private final ArrayList<Item> items;
@@ -31,8 +30,13 @@ public abstract class Level0ItemRoom extends Level0Room {
 
     @Override
     public boolean isOn() {
-        if(collectedItems.size() == items.size() && super.isOn()){
-            return true;
+        if(super.isOn()){
+            for(Item item : items){
+                if(item.isCollected()){
+                    return true;
+                } else { break; }
+            }
+            return false;
         } else { return false; }
     }
     @Override
