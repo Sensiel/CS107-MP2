@@ -7,7 +7,20 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Level0KeyRoom extends Level0ItemRoom{
     public Level0KeyRoom(DiscreteCoordinates roomCoordinates, int keyID) {
         super(roomCoordinates);
-        addItem(new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID));
+        key=new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID);
+        addItem(key);
         // TODO maybe utiliser une constante pour la position de creation
     }
+    private Key key;
+    @Override
+    public boolean isOn() {
+        if(key.isCollected()){
+            return true;
+        } else { return false; }
+    }
+    @Override
+    public boolean isOff() {
+        return (!isOn());
+    }
+
 }

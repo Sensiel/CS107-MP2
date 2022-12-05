@@ -7,17 +7,19 @@ import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
 import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ICRogueRoom extends Area {
+public abstract class ICRogueRoom extends Area implements Logic {
     private DiscreteCoordinates roomCoordinates;
     private String behaviorName;
     private ICRogueBehavior behavior;
     private ArrayList<Connector> tab;
+    private boolean isRoomVisited;
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
                        String behaviorName, DiscreteCoordinates roomCoordinates){
@@ -29,7 +31,9 @@ public abstract class ICRogueRoom extends Area {
         this.roomCoordinates = roomCoordinates;
     }
 
-
+    public void setIsRoomVisited(boolean value){
+        this.isRoomVisited=value;
+    }
 
     public String getBehaviorName(){
         return behaviorName;
@@ -96,6 +100,25 @@ public abstract class ICRogueRoom extends Area {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isOn() {
+        if (isRoomVisited) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isOff() {
+        return (!isOn());
+    }
+
+    @Override
+    public float getIntensity() {
+        return 0;
     }
 }
 

@@ -7,9 +7,14 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Item;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
+import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0ItemRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -150,6 +155,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return nextArea;
     }
 
+    @Override
+    public void enterArea(Area area, DiscreteCoordinates position) {
+        super.enterArea(area, position);
+        ((ICRogueRoom)getOwnerArea()).setIsRoomVisited(true);
+    }
+
     private class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler{
         @Override
         public void interactWith(Cherry cherry, boolean isCellInteraction) {
@@ -163,6 +174,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(!isCellInteraction){
                 ownStaff = true;
                 staff.collect();
+                ((Level0ItemRoom)getOwnerArea()).addCollectedItems(staff);
             }
         }
 
@@ -171,6 +183,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction){
                 key.collect();
                 keyIds.add(key.getId());
+                ((Level0ItemRoom)getOwnerArea()).addCollectedItems(key);
             }
         }
 
