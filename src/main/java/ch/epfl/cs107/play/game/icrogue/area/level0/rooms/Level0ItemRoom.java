@@ -28,7 +28,7 @@ public abstract class Level0ItemRoom extends Level0Room {
             registerActor(item);
         }
     }
-    /*
+/*
     @Override
     public boolean isOn() {
         super.isOn();
@@ -41,5 +41,5 @@ public abstract class Level0ItemRoom extends Level0Room {
         return (!isOn());
     }
 
-     */
+ */
 }
