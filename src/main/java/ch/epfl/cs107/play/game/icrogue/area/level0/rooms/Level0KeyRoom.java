@@ -12,9 +12,10 @@ public class Level0KeyRoom extends Level0ItemRoom{
         // TODO maybe utiliser une constante pour la position de creation
     }
     private Key key;
+    /*
     @Override
     public boolean isOn() {
-        if(key.isCollected()){
+        if(key.isCollected()&& super.isOn()){
             return true;
         } else { return false; }
     }
@@ -22,5 +23,7 @@ public class Level0KeyRoom extends Level0ItemRoom{
     public boolean isOff() {
         return (!isOn());
     }
+
+     */ // jsp si on garde psk celui de la superclasse fait le taff en + c'est pas demande de coder ca ds l'énoncé
 
 }

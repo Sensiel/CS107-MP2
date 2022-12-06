@@ -87,17 +87,14 @@ public abstract class ICRogueRoom extends Area implements Logic {
                 connector.setState(Connector.State.OPEN);
             }
         }
-        if(keyboard.get(Keyboard.L).isPressed()){
+        if (keyboard.get(Keyboard.L).isPressed()) {
             tab.get(0).setState(Connector.State.LOCKED);
             tab.get(0).setKeyID(1);
         }
-        if(keyboard.get(Keyboard.T).isPressed()) {
+        if (isOn()) {
             for (Connector connector : tab) {
                 if (connector.getState().equals(Connector.State.CLOSED)) {
                     connector.setState(Connector.State.OPEN);
-
-                } else if (connector.getState().equals(Connector.State.OPEN)) {
-                    connector.setState(Connector.State.CLOSED);
                 }
             }
         }

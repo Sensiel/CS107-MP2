@@ -192,14 +192,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 nextArea = connector.getDestTitle();
             }
             else if(!isCellInteraction){
-                if(connector.getState().equals(Connector.State.LOCKED)  && ((Level0KeyRoom)getOwnerArea()).isOn()){
+                if(connector.getState().equals(Connector.State.LOCKED) && keyIds.contains(connector.getKeyID())){
                     connector.setState(Connector.State.OPEN);
                 }
                 else if(connector.getState().equals(Connector.State.CLOSED)){
                     connector.setState(Connector.State.OPEN);
                 }
             }
-            //&& keyIds.contains(connector.getKeyID())
         }
     }
 }

@@ -12,9 +12,12 @@ public class Level0StaffRoom extends Level0ItemRoom{
         // TODO maybe utiliser une constante pour la position de creation
     }
     private Staff staff;
+    /*
+
+
     @Override
     public boolean isOn() {
-        if(staff.isCollected()){
+        if(staff.isCollected()&&super.isOn()){
             return true;
         } else { return false; }
     }
@@ -22,4 +25,7 @@ public class Level0StaffRoom extends Level0ItemRoom{
     public boolean isOff() {
         return (!isOn());
     }
+
+     */ // jsp si on garde psk celui de la superclasse fait le taff en + c'est pas demande de coder ca ds l'énoncé
+
 }
