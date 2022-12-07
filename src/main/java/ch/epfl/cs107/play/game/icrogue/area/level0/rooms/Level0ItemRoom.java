@@ -13,31 +13,28 @@ public abstract class Level0ItemRoom extends Level0Room {
 
     private final ArrayList<Item> items;
 
-    private ArrayList<Item> collectedItems;
-
     public void addItem(Item item){
         items.add(item);
     }
-    public void addCollectedItems(Item item){collectedItems.add(item);}
 
     @Override
     protected void createArea() {
         super.createArea();
-        for(Item item : items){
-            registerActor(item);
+        for(Item item : items) {
+            if (!item.isCollected())
+                registerActor(item);
         }
     }
 
     @Override
     public boolean isOn() {
-        if(super.isOn()){
-            for(Item item : items){
-                if(item.isCollected()){
-                    return true;
-                } else { break; }
-            }
+        if(!super.isOn()) // isOff marche pas pck ça boucle à l'infini
             return false;
-        } else { return false; }
+        for(Item item : items) {
+            if (!item.isCollected())
+                return false;
+        }
+        return true;
     }
     @Override
     public boolean isOff() {

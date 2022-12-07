@@ -33,7 +33,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
     }
 
     public void setIsRoomVisited(boolean value){
-        this.isRoomVisited=value;
+        this.isRoomVisited = value;
     }
 
     public String getBehaviorName(){
@@ -102,11 +102,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
 
     @Override
     public boolean isOn() {
-        if (isRoomVisited) {
-            return true;
-        } else {
-            return false;
-        }
+        return isRoomVisited;
     }
 
     @Override

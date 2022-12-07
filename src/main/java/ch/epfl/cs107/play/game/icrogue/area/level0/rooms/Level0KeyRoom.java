@@ -7,23 +7,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Level0KeyRoom extends Level0ItemRoom{
     public Level0KeyRoom(DiscreteCoordinates roomCoordinates, int keyID) {
         super(roomCoordinates);
-        key=new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID);
+        Key key = new Key(this, Orientation.UP, new DiscreteCoordinates(5,5), keyID);
         addItem(key);
         // TODO maybe utiliser une constante pour la position de creation
     }
-    private Key key;
-    /*
-    @Override
-    public boolean isOn() {
-        if(key.isCollected()&& super.isOn()){
-            return true;
-        } else { return false; }
-    }
-    @Override
-    public boolean isOff() {
-        return (!isOn());
-    }
-
-     */ // jsp si on garde psk celui de la superclasse fait le taff en + c'est pas demande de coder ca ds l'énoncé
-
 }
