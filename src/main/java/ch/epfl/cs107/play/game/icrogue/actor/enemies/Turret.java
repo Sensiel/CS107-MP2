@@ -17,9 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Turret extends Enemy {
-
     private Turret.ICRogueTurretInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
-
     private Orientation[] orientations;
     private final static float COOLDOWN = 2.f;
     private int compteur; //jsp quoi mettre comme nom
@@ -27,12 +25,9 @@ public class Turret extends Enemy {
 
     public Turret(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Orientation[] orientations) {
         super(owner, orientation, coordinates);
-        setSprite(new Sprite("icrogue/static_npc", 1.5f, 1.5f, this , null , new Vector(-0.25f, 0)));
+        setSprite(new Sprite("icrogue/static_npc", 1.5f, 1.5f, this, null, new Vector(-0.25f, 0)));
         this.orientations = orientations;
         compteur = 0;
-        //Arrow arrow1 = new Arrow(getOwnerArea(), orientations[0], getCurrentMainCellCoordinates());
-        //Arrow arrow2 = new Arrow(getOwnerArea(), orientations[1], getCurrentMainCellCoordinates());
-
     }
 
     private void initializeCompteur() {
@@ -41,7 +36,7 @@ public class Turret extends Enemy {
 
     @Override
     public void draw(Canvas canvas) {
-        if(!getIsDead()){
+        if (!getIsDead()) {
             getSprite().draw(canvas);
 
         }
@@ -60,7 +55,7 @@ public class Turret extends Enemy {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor c, boolean isCellInteraction) {
-        ((ICRogueInteractionHandler) c).interactWith(this , isCellInteraction);
+        ((ICRogueInteractionHandler) c).interactWith(this, isCellInteraction);
     }
 
     public void interactWith(Interactable other, boolean isCellInteraction) {
@@ -76,15 +71,20 @@ public class Turret extends Enemy {
             initializeCompteur();
         }
     }
+
     public void attack() {
         /*
         for (Orientation orientation : orientations) {
-            Arrow arrow = new Arrow(getOwnerArea(), orientations[0], getCurrentMainCellCoordinates());
+            Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
+            getOwnerArea().registerActor(arrow);
+
         } // idk
 
          */
         Arrow arrow1 = new Arrow(getOwnerArea(), orientations[0], getCurrentMainCellCoordinates());
         Arrow arrow2 = new Arrow(getOwnerArea(), orientations[1], getCurrentMainCellCoordinates());
+        getOwnerArea().registerActor(arrow2);
+        getOwnerArea().registerActor(arrow1);
     }
 
     private class ICRogueTurretInteractionHandler implements ICRogueInteractionHandler {
@@ -94,13 +94,5 @@ public class Turret extends Enemy {
                 killEnemy();
             }
         }
-
-        @Override
-        public void interactWith(ICRoguePlayer player, boolean isCellInteraction) {
-            if(isCellInteraction){
-                killEnemy();
-            }
-        }
     }
-
 }

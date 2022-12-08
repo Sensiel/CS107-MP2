@@ -6,10 +6,12 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Item;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
+import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0ItemRoom;
@@ -26,6 +28,8 @@ import ch.epfl.cs107.play.window.Keyboard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow.ARROW_DAMAGE;
 
 public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
@@ -81,6 +85,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
         }
+
     }
 
     private void moveIfPressed(Orientation orientation, Button b){
@@ -205,6 +210,19 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 else if(connector.getState().equals(Connector.State.CLOSED)){
                     connector.setState(Connector.State.OPEN);
                 }
+            }
+        }
+        @Override
+        public void interactWith(Arrow arrow, boolean isCellInteraction) {
+            if(isCellInteraction){
+                updateHp(ARROW_DAMAGE);
+            }
+        }
+
+        @Override
+        public void interactWith(Turret turret, boolean isCellInteraction) {
+            if(isCellInteraction){
+                turret.killEnemy();
             }
         }
     }

@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Arrow extends Projectile{
 
-    final static int ARROW_DAMAGE = 1;
+    public final static int ARROW_DAMAGE = 1;
     private Arrow.ICRogueArrowInteractionHandler handler = new Arrow.ICRogueArrowInteractionHandler();
 
     public Arrow(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
@@ -50,7 +50,6 @@ public class Arrow extends Projectile{
         @Override
         public void interactWith(ICRoguePlayer player, boolean isCellInteraction) {
             if(isCellInteraction) {
-                    player.updateHp(ARROW_DAMAGE);
                         consume();
                 }
             }
