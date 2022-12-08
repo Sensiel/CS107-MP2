@@ -7,7 +7,16 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
+/**
+ * Specific Item
+ */
 public class Staff extends Item{
+    /**
+     * Default Staff constructor
+     * @param area (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the staff. Not null
+     * @param orientation (Orientation): Initial orientation of the staff. Not null
+     */
     public Staff(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         setSprite(new Sprite("zelda/staff_water.icon", .5f, .5f, this));

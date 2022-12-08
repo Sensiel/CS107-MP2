@@ -11,7 +11,6 @@ public abstract class ICRogueActor extends MovableAreaEntity {
     private Sprite sprite;
     public ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
-        enterArea(owner, coordinates);
         resetMotion();
     }
 

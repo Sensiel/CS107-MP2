@@ -13,6 +13,7 @@ public class Level0EnemyRoom extends Level0Room{
 
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
+        enemies = new ArrayList<>();
         Turret turret1 = new Turret(this, Orientation.UP,new DiscreteCoordinates(1,8), new Orientation[]{Orientation.DOWN, Orientation.RIGHT});
         Turret turret2 = new Turret(this, Orientation.UP,new DiscreteCoordinates(8,1), new Orientation[]{Orientation.UP, Orientation.LEFT});
         setEnemies(turret1,turret2);

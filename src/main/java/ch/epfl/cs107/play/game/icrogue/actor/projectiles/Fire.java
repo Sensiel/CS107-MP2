@@ -12,10 +12,19 @@ import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Specific projectile
+ */
 public class Fire extends Projectile{
 
     private ICRogueFireInteractionHandler handler = new ICRogueFireInteractionHandler();
 
+    /**
+     * Default Fire constructor
+     * @param owner (Area): Owner area. Not null
+     * @param coordinates (Coordinate): Initial position of the fire. Not null
+     * @param orientation (Orientation): Initial orientation of the fire. Not null
+     */
     public Fire(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates, 5, 1);
         setSprite(new Sprite("zelda/fire", 1f, 1f, this ,

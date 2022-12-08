@@ -14,12 +14,23 @@ import java.util.List;
 
 public abstract class Item extends CollectableAreaEntity {
 
+    //Sprite of the item
     private Sprite item;
 
+    /**
+     * Default Item constructor
+     * @param area (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the item. Not null
+     * @param orientation (Orientation): Initial orientation of the item. Not null
+     */
     public Item(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
     }
 
+    /**
+     * set a Sprite to represent the item
+     * @param sprite (Sprite) : The sprite that represents the item. Not null
+     */
     public void setSprite(Sprite sprite){
         item = sprite;
     }

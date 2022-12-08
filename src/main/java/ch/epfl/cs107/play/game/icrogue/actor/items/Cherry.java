@@ -9,8 +9,17 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.List;
 
+/**
+ * Specific Item
+ */
 public class Cherry extends Item{
 
+    /**
+     * Default Cherry constructor
+     * @param area (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the cherry. Not null
+     * @param orientation (Orientation): Initial orientation of the cherry. Not null
+     */
     public Cherry(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         setSprite(new Sprite("icrogue/cherry", 0.6f, 0.6f, this));

@@ -61,6 +61,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         keyIds = new ArrayList<Integer>();
         isChangingRoom = false;
         hp =10;
+        enterArea(owner, coordinates);
     }
 
     @Override

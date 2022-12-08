@@ -11,16 +11,40 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Projectile extends ICRogueActor implements Consumable, Interactor {
+    //Default damage attribute
     public final static int DEFAULT_DAMAGE = 1;
+
+    //Default move duration attribute
     public final static int DEFAULT_MOVE_DURATION = 10;
+
+    //Move duration of the projectile
     private int frameForMove;
+
+    //Damage of the projectile
     private int damage;
+
+    //Boolean of the current state of the projectile
     private boolean isConsumed;
 
+    /**
+     * Default Projectile constructor
+     * @param owner (Area): Owner area. Not null
+     * @param coordinates (Coordinate): Initial position of the projectile. Not null
+     * @param orientation (Orientation): Initial orientation of the projectile. Not null
+     */
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         this(owner, orientation, coordinates, DEFAULT_DAMAGE, DEFAULT_MOVE_DURATION);
     }
 
+
+    /**
+     * Alternative Projectile constructor
+     * @param owner (Area): Owner area. Not null
+     * @param coordinates (Coordinate): Initial position of the projectile. Not null
+     * @param orientation (Orientation): Initial orientation of the projectile. Not null
+     * @param frameForMove (int) : Move duration of the projectile.
+     * @param damage (int) : Damage amount of the projectile.
+     */
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, int damage) {
         super(owner, orientation, coordinates);
         this.frameForMove = frameForMove;
@@ -40,7 +64,6 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
     public void consume() {
         isConsumed = true;
     }
-
     @Override
     public boolean isConsumed() {
         return isConsumed;
