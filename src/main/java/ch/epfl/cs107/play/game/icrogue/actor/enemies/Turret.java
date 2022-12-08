@@ -17,20 +17,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class Turret extends Enemy {
-    private Turret.ICRogueTurretInteractionHandler handler = new Turret.ICRogueTurretInteractionHandler();
     private Orientation[] orientations;
     private final static float COOLDOWN = 2.f;
-    private int compteur; //jsp quoi mettre comme nom
+    private float compteur; //jsp quoi mettre comme nom
 
 
     public Turret(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Orientation[] orientations) {
         super(owner, orientation, coordinates);
         setSprite(new Sprite("icrogue/static_npc", 1.5f, 1.5f, this, null, new Vector(-0.25f, 0)));
         this.orientations = orientations;
-        compteur = 0;
+        compteur = 0f;
     }
 
-    private void initializeCompteur() {
+    private void resetCompteur() {
         compteur = 0;
     }
 
@@ -38,14 +37,7 @@ public class Turret extends Enemy {
     public void draw(Canvas canvas) {
         if (!getIsDead()) {
             getSprite().draw(canvas);
-
         }
-    }
-
-    @Override
-    public void killEnemy() {
-        super.killEnemy();
-        leaveArea(); // je pense c pas necessaire vu que jai mis la condition dans draw ?
     }
 
     @Override
@@ -58,41 +50,20 @@ public class Turret extends Enemy {
         ((ICRogueInteractionHandler) c).interactWith(this, isCellInteraction);
     }
 
-    public void interactWith(Interactable other, boolean isCellInteraction) {
-        other.acceptInteraction(handler, isCellInteraction);
-    }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         compteur += deltaTime;
-        if (compteur == COOLDOWN) {
+
+        if (compteur >= COOLDOWN) {
             attack();
-            initializeCompteur();
+            resetCompteur();
         }
     }
 
     public void attack() {
-        /*
         for (Orientation orientation : orientations) {
             Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
-            getOwnerArea().registerActor(arrow);
-
-        } // idk
-
-         */
-        Arrow arrow1 = new Arrow(getOwnerArea(), orientations[0], getCurrentMainCellCoordinates());
-        Arrow arrow2 = new Arrow(getOwnerArea(), orientations[1], getCurrentMainCellCoordinates());
-        getOwnerArea().registerActor(arrow2);
-        getOwnerArea().registerActor(arrow1);
-    }
-
-    private class ICRogueTurretInteractionHandler implements ICRogueInteractionHandler {
-        @Override
-        public void interactWith(Fire fire, boolean isCellInteraction) {
-            if (isCellInteraction) {
-                killEnemy();
-            }
         }
     }
 }

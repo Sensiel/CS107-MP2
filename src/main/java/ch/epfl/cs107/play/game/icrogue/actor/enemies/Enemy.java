@@ -19,7 +19,7 @@ public abstract class Enemy extends ICRogueActor implements  Interactable {
         return isDead;
     }
     public void killEnemy(){
-        isDead =true;
+        isDead = true;
     }
 
 }

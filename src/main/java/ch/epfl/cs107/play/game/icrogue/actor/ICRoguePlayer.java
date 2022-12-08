@@ -78,9 +78,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
-        if(keyboard.get(Keyboard.P).isPressed()){ // pour afficher debug
+        /*if(keyboard.get(Keyboard.P).isPressed()){ // pour afficher debug
             System.out.println(getOwnerArea().canEnterAreaCells(this, getFieldOfViewCells()));
-        }
+        }*/
 
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
@@ -207,9 +207,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 if(connector.getState().equals(Connector.State.LOCKED) && keyIds.contains(connector.getKeyID())){
                     connector.setState(Connector.State.OPEN);
                 }
-                else if(connector.getState().equals(Connector.State.CLOSED)){
+                /*else if(connector.getState().equals(Connector.State.CLOSED)){
                     connector.setState(Connector.State.OPEN);
-                }
+                }*/
             }
         }
         @Override

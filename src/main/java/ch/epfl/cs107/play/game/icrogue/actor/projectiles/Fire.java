@@ -41,7 +41,11 @@ public class Fire extends Projectile{
     @Override
     public void consume() {
         super.consume();
-        leaveArea();
+    }
+
+    @Override
+    public void update(float deltaTime){
+        super.update(deltaTime);
     }
 
     @Override
@@ -67,6 +71,7 @@ public class Fire extends Projectile{
         public void interactWith(Turret turret, boolean isCellInteraction) {
             if(isCellInteraction){
                 consume();
+                turret.killEnemy();
             }
         }
     }

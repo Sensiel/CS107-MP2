@@ -62,7 +62,4 @@ public class Level0 extends Level {
         setRoom (room11, new Level0Room(room11));
         setRoomConnector(room11, "icrogue/level010", Level0Room.Level0Connectors.N);
     }
-
-
-
 }

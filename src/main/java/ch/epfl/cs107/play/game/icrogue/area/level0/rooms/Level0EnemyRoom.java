@@ -50,10 +50,15 @@ public class Level0EnemyRoom extends Level0Room{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        for( Enemy enemy : enemies){
+        ArrayList<Enemy> toRemove = new ArrayList<>();
+        for(Enemy enemy : enemies){
             if(enemy.getIsDead()){
-                unregisterActor(enemy);
+                enemy.leaveArea();
+                toRemove.add(enemy);
             }
+        }
+        for(Enemy enemy: toRemove){
+            enemies.remove(enemy);
         }
     }
 }

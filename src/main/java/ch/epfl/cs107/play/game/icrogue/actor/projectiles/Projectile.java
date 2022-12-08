@@ -34,6 +34,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
      */
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         this(owner, orientation, coordinates, DEFAULT_DAMAGE, DEFAULT_MOVE_DURATION);
+        enterArea(owner, coordinates);
     }
 
 
@@ -47,6 +48,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
      */
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, int damage) {
         super(owner, orientation, coordinates);
+        enterArea(owner, coordinates);
         this.frameForMove = frameForMove;
         this.damage = damage;
         this.isConsumed = false;
@@ -55,6 +57,8 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(isConsumed())
+            leaveArea();
         if(!isDisplacementOccurs()){
             move(frameForMove);
         }
