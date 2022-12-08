@@ -3,8 +3,9 @@ package ch.epfl.cs107.play.game.icrogue.area;
 import ch.epfl.cs107.play.game.icrogue.ICRogue;
 import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.logic.Logic;
 
-public abstract class Level {
+public abstract class Level implements Logic {
     private ICRogueRoom[][] map;
     private final int  width;
     private final int  height;
@@ -61,5 +62,19 @@ public abstract class Level {
 
     public DiscreteCoordinates getGlobalPosBeginning() {
         return globalPosBeginning;
+    }
+    @Override
+    public boolean isOn() {
+        return map[posBoss.x][posBoss.y].isOn() && map[posBoss.x][posBoss.y] != null;
+    }
+
+    @Override
+    public boolean isOff() {
+        return (!isOn());
+    }
+
+    @Override
+    public float getIntensity() {
+        return 0;
     }
 }

@@ -43,6 +43,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private boolean isChangingRoom;
     private String nextArea = "";
 
+    private float hp;
+
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
         spriteOrientated = new Sprite[]{
@@ -58,6 +60,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
         keyIds = new ArrayList<Integer>();
         isChangingRoom = false;
+        hp =10;
     }
 
     @Override
@@ -101,6 +104,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             case DOWN -> 2;
             case LEFT -> 3;
         };
+    }
+    public void updateHp(int damage){
+        hp -= damage;
     }
 
     @Override

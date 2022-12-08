@@ -80,6 +80,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        /*
         Keyboard keyboard = this.getKeyboard();
 
         if (keyboard.get(Keyboard.O).isPressed()) {
@@ -91,6 +92,8 @@ public abstract class ICRogueRoom extends Area implements Logic {
             tab.get(0).setState(Connector.State.LOCKED);
             tab.get(0).setKeyID(1);
         }
+
+         */
         if (isOn()) {
             for (Connector connector : tab) {
                 if (connector.getState().equals(Connector.State.CLOSED)) {
