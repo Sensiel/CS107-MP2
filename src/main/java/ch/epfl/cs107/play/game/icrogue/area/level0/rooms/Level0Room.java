@@ -20,9 +20,9 @@ public class Level0Room extends ICRogueRoom {
         E(new DiscreteCoordinates(9, 4), new DiscreteCoordinates(1, 5),Orientation.RIGHT),
         N(new DiscreteCoordinates(4, 9), new DiscreteCoordinates(5, 1),Orientation.UP) ;
 
-        private DiscreteCoordinates connectorCoordinates;
-        private DiscreteCoordinates destCoordinates;
-        private Orientation orientation;
+        private final DiscreteCoordinates connectorCoordinates;
+        private final DiscreteCoordinates destCoordinates;
+        private final Orientation orientation;
 
 
         Level0Connectors(DiscreteCoordinates connectorCoordinates, DiscreteCoordinates destCoordinates, Orientation orientation) {
@@ -61,8 +61,6 @@ public class Level0Room extends ICRogueRoom {
             }
             return result;
         }
-
-
     }
 
     public Level0Room(DiscreteCoordinates roomCoordinates){
@@ -73,8 +71,6 @@ public class Level0Room extends ICRogueRoom {
 
     protected void createArea() {
         super.createArea();
-        // Base
-
         registerActor(new Background(this, getBehaviorName()));
     }
 

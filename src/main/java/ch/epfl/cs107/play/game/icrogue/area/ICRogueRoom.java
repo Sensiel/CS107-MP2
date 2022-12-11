@@ -25,20 +25,21 @@ public abstract class ICRogueRoom extends Area implements Logic {
                        String behaviorName, DiscreteCoordinates roomCoordinates){
         tab = new ArrayList<>();
         for(int i = 0; i< connectorsCoordinates.size(); ++i){
-            tab.add(new Connector(this, orientations.get(i), connectorsCoordinates.get(i)));
+            tab.add(new Connector(this, orientations.get(i).opposite(), connectorsCoordinates.get(i)));
         }
         this.behaviorName = behaviorName;
         this.roomCoordinates = roomCoordinates;
         isRoomVisited = false ;
     }
-
-    public void setIsRoomVisited(boolean value){
-        this.isRoomVisited = value;
-    }
-
     public String getBehaviorName(){
         return behaviorName;
     }
+
+    public void setRoomVisited(boolean value){
+        this.isRoomVisited = value;
+    }
+
+
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
@@ -67,6 +68,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
 
     public void setConnectorDestination(ConnectorInRoom connector, String dest){
         tab.get(connector.getIndex()).setDestTitle(dest);
+        tab.get(connector.getIndex()).setPosDest(connector.getDestination());
     }
 
     public void setConnectorState(ConnectorInRoom connector, Connector.State state){
@@ -80,6 +82,14 @@ public abstract class ICRogueRoom extends Area implements Logic {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if (isOn()) {
+            for (Connector connector : tab) {
+                if (connector.getState().equals(Connector.State.CLOSED)) {
+                    connector.setState(Connector.State.OPEN);
+                }
+            }
+        }
+
         /*
         Keyboard keyboard = this.getKeyboard();
 
@@ -94,13 +104,6 @@ public abstract class ICRogueRoom extends Area implements Logic {
         }
 
          */
-        if (isOn()) {
-            for (Connector connector : tab) {
-                if (connector.getState().equals(Connector.State.CLOSED)) {
-                    connector.setState(Connector.State.OPEN);
-                }
-            }
-        }
     }
 
     @Override

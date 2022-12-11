@@ -34,7 +34,6 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
      */
     public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         this(owner, orientation, coordinates, DEFAULT_DAMAGE, DEFAULT_MOVE_DURATION);
-        enterArea(owner, coordinates);
     }
 
 

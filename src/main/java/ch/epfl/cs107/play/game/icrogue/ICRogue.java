@@ -24,8 +24,8 @@ public class ICRogue extends AreaGame {
         currentLevel = new Level0();
         currentLevel.addAreas(this);
         setCurrentArea(currentLevel.getStartRoomTitle(), true);
-        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, currentLevel.getGlobalPosBeginning(),"zelda/player");
-        //player.enterArea(getCurrentArea(), currentLevel.getGlobalPosBeginning()); // Il entre déjà avec le constructeur
+        player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, currentLevel.getPlayerStartingPos(),"zelda/player");
+        player.enterArea(getCurrentArea(), currentLevel.getPlayerStartingPos());
     }
 
     @Override
@@ -47,12 +47,18 @@ public class ICRogue extends AreaGame {
             switchRoom();
             player.setChangingRoom(false);
         }
+        if(currentLevel.isOn()){
+            System.out.println("Win");
+        }
+        else if(player.isDead()){
+            System.out.println("Game Over");
+        } // TODO peut être arreter le jeu
     }
 
     protected void switchRoom() {
         player.leaveArea();
         ICRogueRoom nextRoom = (ICRogueRoom) setCurrentArea(player.getNextArea(), false);
-        player.enterArea(nextRoom, currentLevel.getGlobalPosBeginning());
+        player.enterArea(nextRoom, player.getNextAreaStartingPos());
     }
 
     @Override

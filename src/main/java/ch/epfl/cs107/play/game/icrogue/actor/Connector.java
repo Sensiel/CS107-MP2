@@ -66,6 +66,10 @@ public class Connector extends AreaEntity implements Interactable {
         posDest = pos;
     }
 
+    public DiscreteCoordinates getPosDest() {
+        return posDest;
+    }
+
     public String getDestTitle() {
         return destTitle;
     }
@@ -116,7 +120,7 @@ public class Connector extends AreaEntity implements Interactable {
             return null;
         }
 
-        return new Sprite(getState().spriteName + ((getOrientation().ordinal() + 2) % 4), // TODO post forum pck ils ont donné un truc faux
+        return new Sprite(getState().spriteName + (getOrientation().ordinal() % 4), // TODO post forum pck ils ont donné un truc faux
                         (getOrientation().ordinal()+1)%2+1, getOrientation().ordinal()%2+1, this);
     }
 }

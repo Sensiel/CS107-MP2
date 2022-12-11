@@ -9,7 +9,7 @@ public abstract class Level implements Logic {
     private ICRogueRoom[][] map;
     private final int  width;
     private final int  height;
-    private final DiscreteCoordinates globalPosBeginning;
+    private final DiscreteCoordinates playerStartingPos;
     private final DiscreteCoordinates posBoss;
     private String startRoomTitle;
 
@@ -48,9 +48,9 @@ public abstract class Level implements Logic {
         }
     }
 
-    public Level(DiscreteCoordinates globalPosBeginning, int width, int height){
+    public Level(DiscreteCoordinates playerStartingPos, int width, int height){
         posBoss = new DiscreteCoordinates(0,0);
-        this.globalPosBeginning = globalPosBeginning;
+        this.playerStartingPos = playerStartingPos;
         this.width = width;
         this.height = height;
         map =  new ICRogueRoom[width][height];
@@ -60,12 +60,12 @@ public abstract class Level implements Logic {
     protected abstract void generateFixedMap();
 
 
-    public DiscreteCoordinates getGlobalPosBeginning() {
-        return globalPosBeginning;
+    public DiscreteCoordinates getPlayerStartingPos() {
+        return playerStartingPos;
     }
     @Override
     public boolean isOn() {
-        return map[posBoss.x][posBoss.y].isOn() && map[posBoss.x][posBoss.y] != null;
+        return (map[posBoss.x][posBoss.y] != null && map[posBoss.x][posBoss.y].isOn());
     }
 
     @Override

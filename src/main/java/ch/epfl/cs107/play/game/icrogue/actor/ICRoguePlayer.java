@@ -25,9 +25,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow.ARROW_DAMAGE;
 
@@ -46,6 +44,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     private boolean isChangingRoom;
     private String nextArea = "";
+    private DiscreteCoordinates nextAreaStartingPos;
 
     private float hp;
 
@@ -62,10 +61,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 new RegionOfInterest(0, 96, 16, 32), new Vector(.15f, -.15f))
         };
         setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
-        keyIds = new ArrayList<Integer>();
+        keyIds = new ArrayList<>();
         isChangingRoom = false;
-        hp =10;
-        enterArea(owner, coordinates);
+        hp = 10;
     }
 
     @Override
@@ -84,6 +82,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
+            fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
 
     }
@@ -163,14 +162,22 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         isChangingRoom = changingRoom;
     }
 
+    @Override
+    public void enterArea(Area area, DiscreteCoordinates position) {
+        super.enterArea(area, position);
+        ((ICRogueRoom)getOwnerArea()).setRoomVisited(true);
+    }
+
+    public DiscreteCoordinates getNextAreaStartingPos() {
+        return nextAreaStartingPos;
+    }
+
     public String getNextArea() {
         return nextArea;
     }
 
-    @Override
-    public void enterArea(Area area, DiscreteCoordinates position) {
-        super.enterArea(area, position);
-        ((ICRogueRoom)getOwnerArea()).setIsRoomVisited(true);
+    public boolean isDead(){
+        return (hp <= 0);
     }
 
     private class ICRoguePlayerInteractionHandler implements ICRogueInteractionHandler{
@@ -202,6 +209,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction && !isDisplacementOccurs()){
                 setChangingRoom(true);
                 nextArea = connector.getDestTitle();
+                System.out.println(connector.getPosDest());
+                nextAreaStartingPos = connector.getPosDest();
             }
             else if(!isCellInteraction){
                 if(connector.getState().equals(Connector.State.LOCKED) && keyIds.contains(connector.getKeyID())){

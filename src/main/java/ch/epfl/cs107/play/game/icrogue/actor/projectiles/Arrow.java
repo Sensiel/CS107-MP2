@@ -20,7 +20,6 @@ public class Arrow extends Projectile{
 
     public Arrow(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates, 5, ARROW_DAMAGE);
-        enterArea(owner, coordinates);
         setSprite(new Sprite("zelda/arrow", 1f, 1f, this,
                 new RegionOfInterest(32*orientation.ordinal(), 0, 32, 32),
                 new Vector(0, 0)));

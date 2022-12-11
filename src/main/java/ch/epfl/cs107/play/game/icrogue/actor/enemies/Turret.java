@@ -19,18 +19,18 @@ import java.util.List;
 public class Turret extends Enemy {
     private Orientation[] orientations;
     private final static float COOLDOWN = 2.f;
-    private float compteur; //jsp quoi mettre comme nom
+    private float currentCooldown;
 
 
     public Turret(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Orientation[] orientations) {
         super(owner, orientation, coordinates);
         setSprite(new Sprite("icrogue/static_npc", 1.5f, 1.5f, this, null, new Vector(-0.25f, 0)));
         this.orientations = orientations;
-        compteur = 0f;
+        currentCooldown = 0f;
     }
 
-    private void resetCompteur() {
-        compteur = 0;
+    private void resetCooldown() {
+        currentCooldown = 0f;
     }
 
     @Override
@@ -53,17 +53,18 @@ public class Turret extends Enemy {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        compteur += deltaTime;
+        currentCooldown += deltaTime;
 
-        if (compteur >= COOLDOWN) {
+        if (currentCooldown >= COOLDOWN) {
             attack();
-            resetCompteur();
+            resetCooldown();
         }
     }
 
     public void attack() {
         for (Orientation orientation : orientations) {
             Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
+            arrow.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
     }
 }

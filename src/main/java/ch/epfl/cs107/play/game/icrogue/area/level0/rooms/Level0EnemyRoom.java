@@ -43,7 +43,7 @@ public class Level0EnemyRoom extends Level0Room{
     protected void createArea() {
         super.createArea();
         for( Enemy enemy : enemies){
-            registerActor(enemy);
+            enemy.enterArea(this, enemy.getCurrentCells().get(0)); // ne marche pas si il occupe plusieurs cell
         }
     }
 
@@ -51,6 +51,7 @@ public class Level0EnemyRoom extends Level0Room{
     public void update(float deltaTime) {
         super.update(deltaTime);
         ArrayList<Enemy> toRemove = new ArrayList<>();
+
         for(Enemy enemy : enemies){
             if(enemy.getIsDead()){
                 enemy.leaveArea();
