@@ -1,6 +1,8 @@
 package ch.epfl.cs107.play.game.icrogue.area.level0;
 
+import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.ICRogue;
+import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.area.Level;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
@@ -13,18 +15,96 @@ public class Level0 extends Level {
     private final int PART_1_KEY_ID = 1;
     private final int BOSS_KEY_ID = 2;
 
-    private final static DiscreteCoordinates startRoomCoord = new DiscreteCoordinates(0,0);
-    private final static DiscreteCoordinates playerStartingPos = new DiscreteCoordinates(6,3);
+    private final static DiscreteCoordinates defaultStartRoomCoord = new DiscreteCoordinates(0,0);
+    private final static DiscreteCoordinates defaultPlayerStartingPos = new DiscreteCoordinates(6,3);
 
-    public Level0() {
-        super(playerStartingPos, 4, 2);
-        setStartRoomTitle(startRoomCoord);
+    public enum RoomType {
+        TURRET_ROOM(3),
+        STAFF_ROOM(1),
+        BOSS_KEY(1),
+        SPAWN(1),
+        NORMAL(1);
+
+        private int nbRoom;
+
+        RoomType(int nbRoom){
+            this.nbRoom = nbRoom;
+        }
+
+        public int getNbRoom() {
+            return nbRoom;
+        }
+
+        public static int[] getRoomDistribution(){
+            int[] result = new int[RoomType.values().length];
+            for(int iValue = 0; iValue < result.length; iValue++){
+                result[iValue] = RoomType.values()[iValue].getNbRoom();
+            }
+            return result;
+        }
+    }
+
+    public Level0(boolean randomMap) {
+        super(randomMap, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
+        if(!randomMap)
+            setStartRoomCoord(defaultStartRoomCoord);
+        //System.out.println(getStartRoomCoord());
+        setStartRoomTitle(getStartRoomCoord());
+    }
+
+    public Level0(){
+        super(true, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
+        //System.out.println(getStartRoomCoord());
+        setStartRoomTitle(getStartRoomCoord());
     }
 
     @Override
     protected void generateFixedMap() {
         generateFinalMap();
     }
+
+    @Override
+    protected void createRoom(int type, DiscreteCoordinates coord) {
+        RoomType currentType = RoomType.values()[type];
+        ICRogueRoom currentRoom = null;
+        switch(currentType){
+            case TURRET_ROOM:
+                currentRoom = new Level0TurretRoom(coord);
+                break;
+            case SPAWN:
+                currentRoom = new Level0Room(coord);
+                setStartRoomCoord(coord); // TODO peut être changer
+                break;
+            case NORMAL:
+                currentRoom = new Level0Room(coord);
+                break;
+            case BOSS_KEY:
+                currentRoom = new Level0KeyRoom(coord, BOSS_KEY_ID);
+                break;
+            case STAFF_ROOM:
+                currentRoom = new Level0StaffRoom(coord);
+                break;
+            default:
+                currentRoom = new Level0Room(coord);
+        }
+        System.out.println(coord);
+        setRoom(coord, currentRoom);
+    }
+
+    @Override
+    protected void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room) {
+        DiscreteCoordinates coord = room.getRoomCoordinates();
+        int[] connectorIndexByOrientationOrdinal = {3, 2, 1, 0};//the index of the ConnectorInRoom based on his Orientation ordinal
+        for(Orientation orientation : Orientation.values()){
+            DiscreteCoordinates neighbour = coord.jump(orientation.toVector());
+            if(isInBound(neighbour) && !roomsPlacement[neighbour.x][neighbour.y].equals(MapState.NULL)){
+                Orientation connectorOrientation = orientation.opposite();
+                int connectorIndex = connectorIndexByOrientationOrdinal[connectorOrientation.ordinal()];
+                setRoomConnector(neighbour, room.getTitle(), Level0Room.Level0Connectors.values()[connectorIndex]);
+            }
+        }
+    }
+
     private void generateMap1() {
         DiscreteCoordinates room00 = new DiscreteCoordinates(0, 0);
         setRoom(room00, new Level0KeyRoom(room00, PART_1_KEY_ID));
