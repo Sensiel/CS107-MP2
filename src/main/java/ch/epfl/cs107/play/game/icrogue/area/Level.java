@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.icrogue.area;
 
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.ICRogue;
 import ch.epfl.cs107.play.game.icrogue.RandomHelper;
 import ch.epfl.cs107.play.game.icrogue.actor.Connector;
@@ -176,6 +175,7 @@ public abstract class Level implements Logic {
     }
 
     protected abstract void setUpConnector(MapState [][] roomsPlacement , ICRogueRoom room);
+    protected abstract void setUpLockedConnector(MapState [][] roomsPlacement , ICRogueRoom room);
     private void printMap(MapState [][] map) {
         System.out.println("Generated map:");
         System.out.print(" | ");
@@ -262,6 +262,8 @@ public abstract class Level implements Logic {
                 }
             }
         }
+
+        setUpLockedConnector(roomPlacement, map[posBoss.x][posBoss.y]);
 
         printMap(roomPlacement);
     }

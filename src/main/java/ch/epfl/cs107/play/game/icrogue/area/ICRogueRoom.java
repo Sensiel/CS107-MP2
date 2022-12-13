@@ -8,17 +8,16 @@ import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
-import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ICRogueRoom extends Area implements Logic {
-    private DiscreteCoordinates roomCoordinates;
-    private String behaviorName;
+    private final DiscreteCoordinates roomCoordinates;
+    private final String behaviorName;
     private ICRogueBehavior behavior;
-    private ArrayList<Connector> tab;
+    private final ArrayList<Connector> tab;
     private boolean isRoomVisited;
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,

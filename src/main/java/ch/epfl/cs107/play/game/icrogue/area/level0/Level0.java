@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.icrogue.area.level0;
 
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.icrogue.ICRogue;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.area.Level;
 import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
@@ -19,13 +18,13 @@ public class Level0 extends Level {
     private final static DiscreteCoordinates defaultPlayerStartingPos = new DiscreteCoordinates(6,3);
 
     public enum RoomType {
-        TURRET_ROOM(3),
-        STAFF_ROOM(1),
-        BOSS_KEY(1),
+        TURRET_ROOM(10),
+        STAFF_ROOM(4),
+        BOSS_KEY(2),
         SPAWN(1),
-        NORMAL(1);
+        NORMAL(15);
 
-        private int nbRoom;
+        private final int nbRoom;
 
         RoomType(int nbRoom){
             this.nbRoom = nbRoom;
@@ -66,26 +65,17 @@ public class Level0 extends Level {
     @Override
     protected void createRoom(int type, DiscreteCoordinates coord) {
         RoomType currentType = RoomType.values()[type];
-        ICRogueRoom currentRoom = null;
-        switch(currentType){
-            case TURRET_ROOM:
-                currentRoom = new Level0TurretRoom(coord);
-                break;
-            case SPAWN:
+        ICRogueRoom currentRoom;
+        switch (currentType) {
+            case TURRET_ROOM -> currentRoom = new Level0TurretRoom(coord);
+            case SPAWN -> {
                 currentRoom = new Level0Room(coord);
-                setStartRoomCoord(coord); // TODO peut être changer
-                break;
-            case NORMAL:
-                currentRoom = new Level0Room(coord);
-                break;
-            case BOSS_KEY:
-                currentRoom = new Level0KeyRoom(coord, BOSS_KEY_ID);
-                break;
-            case STAFF_ROOM:
-                currentRoom = new Level0StaffRoom(coord);
-                break;
-            default:
-                currentRoom = new Level0Room(coord);
+                setStartRoomCoord(coord);
+            }
+            case NORMAL -> currentRoom = new Level0Room(coord);
+            case BOSS_KEY -> currentRoom = new Level0KeyRoom(coord, BOSS_KEY_ID);
+            case STAFF_ROOM -> currentRoom = new Level0StaffRoom(coord);
+            default -> currentRoom = new Level0Room(coord);
         }
         System.out.println(coord);
         setRoom(coord, currentRoom);
@@ -101,6 +91,21 @@ public class Level0 extends Level {
                 Orientation connectorOrientation = orientation.opposite();
                 int connectorIndex = connectorIndexByOrientationOrdinal[connectorOrientation.ordinal()];
                 setRoomConnector(neighbour, room.getTitle(), Level0Room.Level0Connectors.values()[connectorIndex]);
+            }
+        }
+    }
+
+    @Override
+    protected void setUpLockedConnector(MapState[][] roomsPlacement, ICRogueRoom room){ // Change it to make it for any locked door
+        DiscreteCoordinates coord = room.getRoomCoordinates();
+        int[] connectorIndexByOrientationOrdinal = {3, 2, 1, 0};//the index of the ConnectorInRoom based on his Orientation ordinal
+        for(Orientation orientation : Orientation.values()){
+            DiscreteCoordinates neighbour = coord.jump(orientation.toVector());
+            if(isInBound(neighbour) && !roomsPlacement[neighbour.x][neighbour.y].equals(MapState.NULL)){
+                Orientation connectorOrientation = orientation.opposite();
+                int connectorIndex = connectorIndexByOrientationOrdinal[connectorOrientation.ordinal()];
+                setRoomConnector(neighbour, room.getTitle(), Level0Room.Level0Connectors.values()[connectorIndex]);
+                lockRoomConnector(neighbour, Level0Room.Level0Connectors.values()[connectorIndex], BOSS_KEY_ID);
             }
         }
     }

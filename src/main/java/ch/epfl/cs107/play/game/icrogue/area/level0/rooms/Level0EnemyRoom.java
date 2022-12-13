@@ -1,15 +1,13 @@
 package ch.epfl.cs107.play.game.icrogue.area.level0.rooms;
 
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Enemy;
-import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Level0EnemyRoom extends Level0Room{
-    private ArrayList<Enemy> enemies;
+    private final ArrayList<Enemy> enemies;
 
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
@@ -17,9 +15,7 @@ public class Level0EnemyRoom extends Level0Room{
     }
 
     protected void setEnemies(Enemy... listOfEnemies) {
-        for(Enemy enemy : listOfEnemies){
-            enemies.add(enemy);
-        }
+        enemies.addAll(Arrays.stream(listOfEnemies).toList());
     }
 
     public boolean isOn() {

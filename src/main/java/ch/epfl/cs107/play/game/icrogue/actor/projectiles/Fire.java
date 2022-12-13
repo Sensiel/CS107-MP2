@@ -18,7 +18,7 @@ import ch.epfl.cs107.play.window.Canvas;
  */
 public class Fire extends Projectile{
 
-    private ICRogueFireInteractionHandler handler = new ICRogueFireInteractionHandler();
+    private final ICRogueFireInteractionHandler handler = new ICRogueFireInteractionHandler();
 
     /**
      * Default Fire constructor
@@ -38,10 +38,6 @@ public class Fire extends Projectile{
         getSprite().draw(canvas);
     }
 
-    @Override
-    public void consume() {
-        super.consume();
-    }
 
     @Override
     public void update(float deltaTime){
@@ -69,7 +65,7 @@ public class Fire extends Projectile{
         }
         @Override
         public void interactWith(Turret turret, boolean isCellInteraction) {
-            if(isCellInteraction){
+            if(isCellInteraction && !isConsumed()){
                 consume();
                 turret.killEnemy();
             }

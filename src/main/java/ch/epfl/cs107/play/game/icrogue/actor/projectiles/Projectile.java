@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.icrogue.actor.projectiles;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRogueActor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
@@ -18,10 +17,10 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
     public final static int DEFAULT_MOVE_DURATION = 10;
 
     //Move duration of the projectile
-    private int frameForMove;
+    private final int frameForMove;
 
     //Damage of the projectile
-    private int damage;
+    private final int damage;
 
     //Boolean of the current state of the projectile
     private boolean isConsumed;

@@ -8,15 +8,10 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
-import ch.epfl.cs107.play.game.icrogue.actor.items.Item;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
-import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0ItemRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -27,18 +22,16 @@ import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.*;
 
-import static ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow.ARROW_DAMAGE;
-
 public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     //Durée de mouvement
     private final static int MOVE_DURATION = 8;
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
-    private Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
-    private ArrayList<Integer> keyIds;
+    private final Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
+    private final ArrayList<Integer> keyIds;
 
-    private ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+    private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
 
     private boolean ownStaff = false;
 
@@ -216,21 +209,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 if(connector.getState().equals(Connector.State.LOCKED) && keyIds.contains(connector.getKeyID())){
                     connector.setState(Connector.State.OPEN);
                 }
-                /*else if(connector.getState().equals(Connector.State.CLOSED)){
-                    connector.setState(Connector.State.OPEN);
-                }*/
-            }
-        }
-        @Override
-        public void interactWith(Arrow arrow, boolean isCellInteraction) {
-            if(isCellInteraction){
-                updateHp(ARROW_DAMAGE);
             }
         }
 
         @Override
         public void interactWith(Turret turret, boolean isCellInteraction) {
-            if(isCellInteraction){
+            if(isCellInteraction ){
                 turret.killEnemy();
             }
         }

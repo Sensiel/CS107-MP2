@@ -43,14 +43,6 @@ public class Connector extends AreaEntity implements Interactable {
         keyID = NO_KEY_ID;
     }
 
-    public Connector(Area owner, Orientation orientation, DiscreteCoordinates coordinates,State state, String destTitle, DiscreteCoordinates posDest,int keyID){
-        super(owner,orientation,coordinates);
-        this.state = state;
-        this.destTitle = destTitle;
-        this.posDest = posDest;
-        this.keyID = keyID;
-    }
-
     public void setState(State state){
         this.state = state;
     }
@@ -111,7 +103,7 @@ public class Connector extends AreaEntity implements Interactable {
     @Override
     public void draw(Canvas canvas) {
         if(getState().isDrawn){
-            getSprite().draw(canvas);;
+            getSprite().draw(canvas);
         }
     }
 
