@@ -14,11 +14,18 @@ public abstract class Enemy extends ICRogueActor {
         isDead = false;
     }
 
-    public boolean getIsDead(){
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        if(isDead()){
+            leaveArea();
+        }
+    }
+
+    public boolean isDead(){
         return isDead;
     }
     public void killEnemy(){
         isDead = true;
     }
-
 }

@@ -47,13 +47,11 @@ public class Level0 extends Level {
         super(randomMap, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
         if(!randomMap)
             setStartRoomCoord(defaultStartRoomCoord);
-        //System.out.println(getStartRoomCoord());
         setStartRoomTitle(getStartRoomCoord());
     }
 
     public Level0(){
         super(true, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
-        //System.out.println(getStartRoomCoord());
         setStartRoomTitle(getStartRoomCoord());
     }
 

@@ -32,9 +32,7 @@ public class Turret extends Enemy {
 
     @Override
     public void draw(Canvas canvas) {
-        if (!getIsDead()) {
-            getSprite().draw(canvas);
-        }
+        getSprite().draw(canvas);
     }
 
     @Override

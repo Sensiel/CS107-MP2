@@ -23,7 +23,7 @@ public class Level0EnemyRoom extends Level0Room{
             return false;
         }
         for(Enemy enemy : enemies){
-            if(!enemy.getIsDead()){
+            if(!enemy.isDead()){
                 return false;
             }
         }
@@ -49,8 +49,7 @@ public class Level0EnemyRoom extends Level0Room{
         ArrayList<Enemy> toRemove = new ArrayList<>();
 
         for(Enemy enemy : enemies){
-            if(enemy.getIsDead()){
-                enemy.leaveArea();
+            if(enemy.isDead()){
                 toRemove.add(enemy);
             }
         }
