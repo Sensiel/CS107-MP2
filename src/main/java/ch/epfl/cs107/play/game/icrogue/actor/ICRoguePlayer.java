@@ -1,10 +1,7 @@
 package ch.epfl.cs107.play.game.icrogue.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Interactable;
-import ch.epfl.cs107.play.game.areagame.actor.Interactor;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
@@ -26,21 +23,24 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     //Durée de mouvement
     private final static int MOVE_DURATION = 8;
+    private final static int ANIMATION_DURATION = MOVE_DURATION/2;
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
-    private final Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
+    //private final Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
     private final ArrayList<Integer> keyIds;
-
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+    private Animation currentAnimation;
 
+    private final Animation[] orientatedAnimation ;
     private boolean ownStaff = false;
 
     private boolean isChangingRoom;
     private String nextArea = "";
     private DiscreteCoordinates nextAreaStartingPos;
+    private final Animation animationsUP, animationsDOWN, animationsLEFT, animationsRIGHT;
 
     private float hp;
-
+/*
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
         spriteOrientated = new Sprite[]{
@@ -59,8 +59,33 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         hp = 10;
     }
 
+ */
+    public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
+        super(owner, orientation, coordinates);
+        Sprite[] spritesDOWN = new Sprite[4],spritesLEFT = new Sprite[4],spritesUP= new Sprite[4],spritesRIGHT = new Sprite[4];
+        Vector anchor = new Vector(.15f, -.15f);
+        for(int i=0;i<4;++i) {
+            spritesDOWN[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16,  0, 16, 32), anchor);
+            spritesLEFT[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16,  16, 16, 32), anchor);
+            spritesUP[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16, 32, 16, 32), anchor);
+            spritesRIGHT[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16, 48 , 16, 32), anchor);
+        }
+        animationsDOWN = new Animation(ANIMATION_DURATION,spritesDOWN);
+        animationsLEFT = new Animation(ANIMATION_DURATION,spritesLEFT);
+        animationsUP = new Animation(ANIMATION_DURATION,spritesUP);
+        animationsRIGHT = new Animation(ANIMATION_DURATION,spritesRIGHT);
+
+        orientatedAnimation = new Animation[]{animationsDOWN, animationsLEFT, animationsUP, animationsRIGHT};
+        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
+        keyIds = new ArrayList<>();
+        isChangingRoom = false;
+        hp = 10;
+    }
+
     @Override
     public void update(float deltaTime) {
+        currentAnimation.update(deltaTime);
+
         super.update(deltaTime);
         Keyboard keyboard= getOwnerArea().getKeyboard();
 
@@ -78,6 +103,10 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
 
+
+    }
+    private void setCurrentAnimation(Animation currentAnimation){
+        this.currentAnimation=currentAnimation;
     }
 
     private void moveIfPressed(Orientation orientation, Button b){
@@ -85,22 +114,37 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if (!isDisplacementOccurs()) {
                 orientate(orientation);
                 move(MOVE_DURATION);
+                currentAnimation.reset();
+
             }
         }
-        setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
+        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
+        //setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        getSprite().draw(canvas);
+        //getSprite().draw(canvas);
+        getCurrentAnimation().draw(canvas);
     }
-
+    private Animation getCurrentAnimation(){ return currentAnimation;}
+/*
     private int getSpriteIndexFromOrientation(Orientation orientation){
         return switch (orientation) {
             case UP -> 0;
             case RIGHT -> 1;
             case DOWN -> 2;
             case LEFT -> 3;
+        };
+    }
+
+ */
+    private int getAnimationIndexFromOrientation(Orientation orientation){
+        return switch (orientation){
+            case DOWN -> 0;
+            case LEFT -> 1;
+            case UP -> 2;
+            case RIGHT -> 3;
         };
     }
     public void updateHp(int damage){
