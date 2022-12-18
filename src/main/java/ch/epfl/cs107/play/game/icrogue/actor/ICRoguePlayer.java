@@ -67,7 +67,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
  */
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
-        Sprite[] spritesDOWN = new Sprite[4],spritesLEFT = new Sprite[4],spritesUP= new Sprite[4],spritesRIGHT = new Sprite[4];
+        Sprite[] spritesDOWN = new Sprite[4], spritesLEFT = new Sprite[4], spritesUP= new Sprite[4], spritesRIGHT = new Sprite[4];
         Vector anchor = new Vector(.15f, -.15f);
         for(int iFrame = 0; iFrame < 4; ++iFrame) {
             spritesDOWN[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16,  0, 16, 32), anchor);
