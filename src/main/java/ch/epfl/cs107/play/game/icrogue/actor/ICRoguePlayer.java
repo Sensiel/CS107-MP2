@@ -69,11 +69,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         super(owner, orientation, coordinates);
         Sprite[] spritesDOWN = new Sprite[4],spritesLEFT = new Sprite[4],spritesUP= new Sprite[4],spritesRIGHT = new Sprite[4];
         Vector anchor = new Vector(.15f, -.15f);
-        for(int i=0;i<4;++i) {
-            spritesDOWN[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16,  0, 16, 32), anchor);
-            spritesLEFT[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16,  16, 16, 32), anchor);
-            spritesUP[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16, 32, 16, 32), anchor);
-            spritesRIGHT[i] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(i*16, 48 , 16, 32), anchor);
+        for(int iFrame = 0; iFrame < 4; ++iFrame) {
+            spritesDOWN[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16,  0, 16, 32), anchor);
+            spritesRIGHT[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16, 32, 16, 32), anchor);
+            spritesUP[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16,  64, 16, 32), anchor);
+            spritesLEFT[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16, 96 , 16, 32), anchor);
         }
         animationsDOWN = new Animation(ANIMATION_DURATION,spritesDOWN);
         animationsLEFT = new Animation(ANIMATION_DURATION,spritesLEFT);
@@ -84,6 +84,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
         keyIds = new ArrayList<>();
         isChangingRoom = false;
+
         hp = 10;
         message = new TextGraphics(Integer.toString((int)hp), 0.4f, Color.LIGHT_GRAY);
         message.setParent(this);
@@ -92,8 +93,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     @Override
     public void update(float deltaTime) {
-        currentAnimation.update(deltaTime);
-
         super.update(deltaTime);
         Keyboard keyboard= getOwnerArea().getKeyboard();
 
@@ -102,33 +101,33 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
-        /*if(keyboard.get(Keyboard.P).isPressed()){ // pour afficher debug
-            System.out.println(getOwnerArea().canEnterAreaCells(this, getFieldOfViewCells()));
-        }*/
+        if(!isDisplacementOccurs())
+            currentAnimation.reset();
+        else
+            currentAnimation.update(deltaTime);
 
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
+
+
         message.setText(Integer.toString((int)hp));
-
-
-
     }
     private void setCurrentAnimation(Animation currentAnimation){
-        this.currentAnimation=currentAnimation;
+        this.currentAnimation = currentAnimation;
     }
 
     private void moveIfPressed(Orientation orientation, Button b){
+        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(getOrientation())]);
         if(b.isDown()) {
             if (!isDisplacementOccurs()) {
+                if(!orientation.equals(getOrientation()))
+                    currentAnimation.reset();
                 orientate(orientation);
                 move(MOVE_DURATION);
-                currentAnimation.reset();
-
             }
         }
-        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
         //setSprite(spriteOrientated[getSpriteIndexFromOrientation(getOrientation())]);
     }
 
