@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.game.icrogue.actor;
 
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
@@ -17,7 +18,9 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
@@ -30,6 +33,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     private final ArrayList<Integer> keyIds;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
     private Animation currentAnimation;
+
+    private TextGraphics message;
 
     private final Animation[] orientatedAnimation ;
     private boolean ownStaff = false;
@@ -80,6 +85,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         keyIds = new ArrayList<>();
         isChangingRoom = false;
         hp = 10;
+        message = new TextGraphics(Integer.toString((int)hp), 0.4f, Color.LIGHT_GRAY);
+        message.setParent(this);
+        message.setAnchor(new Vector(-0.3f, 0.1f));
     }
 
     @Override
@@ -102,6 +110,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
+        message.setText(Integer.toString((int)hp));
+
 
 
     }
@@ -125,6 +135,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     @Override
     public void draw(Canvas canvas) {
         //getSprite().draw(canvas);
+        message.draw(canvas);
         getCurrentAnimation().draw(canvas);
     }
     private Animation getCurrentAnimation(){ return currentAnimation;}
@@ -147,7 +158,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             case RIGHT -> 3;
         };
     }
-    public void updateHp(int damage){
+    public void updateHp(float damage){
         hp -= damage;
     }
 
