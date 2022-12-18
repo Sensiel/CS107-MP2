@@ -20,7 +20,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
     private final int frameForMove;
 
     //Damage of the projectile
-    private final int damage;
+    private final float damage;
 
     //Boolean of the current state of the projectile
     private boolean isConsumed;
@@ -44,7 +44,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
      * @param frameForMove (int) : Move duration of the projectile.
      * @param damage (int) : Damage amount of the projectile.
      */
-    public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, int damage) {
+    public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, float damage) {
         super(owner, orientation, coordinates);
         enterArea(owner, coordinates);
         this.frameForMove = frameForMove;

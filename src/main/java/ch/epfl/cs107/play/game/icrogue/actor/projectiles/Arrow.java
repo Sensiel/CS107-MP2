@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Arrow extends Projectile{
 
-    public final static int ARROW_DAMAGE = 1;
+    public final static float ARROW_DAMAGE = 1;
     private final Arrow.ICRogueArrowInteractionHandler handler = new Arrow.ICRogueArrowInteractionHandler();
 
     public Arrow(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
