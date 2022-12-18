@@ -110,7 +110,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
+        if (hp < 0) hp = 0.f;
         message.setText(Integer.toString((int)hp));
+
 
 
 
