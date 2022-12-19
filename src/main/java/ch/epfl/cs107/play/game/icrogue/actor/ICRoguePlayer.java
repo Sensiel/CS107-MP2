@@ -6,12 +6,14 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
+import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -36,7 +38,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     private TextGraphics message;
 
-    private final Animation[] orientatedAnimation ;
+    private  Animation[] orientatedAnimation ;
     private boolean ownStaff = false;
 
     private boolean isChangingRoom;
@@ -84,7 +86,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
         keyIds = new ArrayList<>();
         isChangingRoom = false;
-
         hp = 10;
         message = new TextGraphics(Integer.toString((int)hp), 0.4f, Color.LIGHT_GRAY);
         message.setParent(this);
@@ -110,10 +111,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
         }
-
-
         message.setText(Integer.toString((int)hp));
     }
+
     private void setCurrentAnimation(Animation currentAnimation){
         this.currentAnimation = currentAnimation;
     }
@@ -133,7 +133,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-        //getSprite().draw(canvas);
         message.draw(canvas);
         getCurrentAnimation().draw(canvas);
     }
@@ -240,7 +239,8 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(!isCellInteraction){
                 ownStaff = true;
                 staff.collect();
-            }
+
+        }
         }
 
         @Override
@@ -271,6 +271,15 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction ){
                 turret.killEnemy();
             }
+        }
+
+        @Override
+        public void interactWith(Heart heart, boolean isCellInteraction) {
+            if(isCellInteraction){
+                heart.collect();
+                hp += 2.0f;
+            }
+
         }
     }
 }

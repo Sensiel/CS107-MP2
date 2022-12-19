@@ -7,35 +7,25 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-/**
- * Specific Item
- */
-public class Staff extends Item{
+public class Heart extends Item{
+
     /**
-     * Default Staff constructor
-     * @param area (Area): Owner area. Not null
-     * @param position (Coordinate): Initial position of the staff. Not null
-     * @param orientation (Orientation): Initial orientation of the staff. Not null
+     * Default Item constructor
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the item. Not null
+     * @param position    (Coordinate): Initial position of the item. Not null
      */
-    public Staff(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public Heart(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        setSprite(new Sprite("zelda/staff_water.icon", .5f, .5f, this));
+        setSprite(new Sprite("zelda/heart", 0.8f, 0.8f, this));
 
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICRogueInteractionHandler) v).interactWith(this , isCellInteraction);
-    }
 
-    @Override
-    public boolean takeCellSpace() {
-        return true;
-    }
 
-    @Override
-    public boolean isViewInteractable() {
-        return true;
     }
-
 }

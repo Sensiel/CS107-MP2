@@ -24,6 +24,7 @@ public class Turret extends Enemy {
         setSprite(new Sprite("icrogue/static_npc", 1.5f, 1.5f, this, null, new Vector(-0.25f, 0)));
         this.orientations = orientations;
         currentCooldown = 0f;
+
     }
 
     private void resetCooldown() {
@@ -34,6 +35,8 @@ public class Turret extends Enemy {
     public void draw(Canvas canvas) {
         getSprite().draw(canvas);
     }
+
+
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
