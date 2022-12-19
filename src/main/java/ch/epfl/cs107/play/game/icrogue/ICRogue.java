@@ -11,7 +11,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICRogue extends AreaGame {
 
-    public final static float CAMERA_SCALE_FACTOR = 11;
+    public final static float CAMERA_SCALE_FACTOR = 11f;
 
     private ICRoguePlayer player;
     private Level0 currentLevel;

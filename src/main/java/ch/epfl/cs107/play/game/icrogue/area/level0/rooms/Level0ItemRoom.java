@@ -4,14 +4,17 @@ import ch.epfl.cs107.play.game.icrogue.actor.items.Item;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Level0ItemRoom extends Level0Room {
+    private final List<Item> items;
+
     public Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         items = new ArrayList<>();
     }
 
-    private final ArrayList<Item> items;
+
 
     public void addItem(Item item){
         items.add(item);

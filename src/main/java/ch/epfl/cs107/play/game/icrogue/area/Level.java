@@ -9,6 +9,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Level implements Logic {
 
@@ -117,7 +118,7 @@ public abstract class Level implements Logic {
             DiscreteCoordinates current = toExplore.removeFirst();
 
             //On calcule les voisins libres
-            ArrayList<DiscreteCoordinates> possibleSlot = new ArrayList<>();
+            List<DiscreteCoordinates> possibleSlot = new ArrayList<>();
             for(DiscreteCoordinates neighbour : current.getNeighbours()){
                 if(isInBound(neighbour) && result[neighbour.x][neighbour.y].equals(MapState.NULL)){
                     possibleSlot.add(neighbour);
@@ -131,7 +132,7 @@ public abstract class Level implements Logic {
                 int roomGettingPlaced = RandomHelper.roomGenerator.nextInt(Integer.min(freeSlots, roomToPlace) + 1);
 
                 //On crée un tableau allant de 0 (inclus) au nombre de voisins (exclus) représentant les index de chaque voisin dans le tableau possibleSlot
-                ArrayList<Integer> roomIndex = new ArrayList<>();
+                List<Integer> roomIndex = new ArrayList<>();
                 for(int i = 0; i < freeSlots; i++){
                     roomIndex.add(i);
                 }
@@ -234,8 +235,8 @@ public abstract class Level implements Logic {
         roomPlacement = generateRandomRoomPlacement();
         for(int iType = 0; iType < roomDistribution.length; iType++){
 
-            ArrayList<DiscreteCoordinates> possibleRooms = new ArrayList<>();
-            ArrayList<Integer> roomIndex = new ArrayList<>();
+            List<DiscreteCoordinates> possibleRooms = new ArrayList<>();
+            List<Integer> roomIndex = new ArrayList<>();
             for(int x = 0; x < width; x++){
                 for(int y = 0; y < height; y++){
                     if(roomPlacement[x][y].equals(MapState.EXPLORED) || roomPlacement[x][y].equals(MapState.PLACED)){

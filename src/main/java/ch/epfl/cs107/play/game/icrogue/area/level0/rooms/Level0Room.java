@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Level0Room extends ICRogueRoom {
-
-
     public enum Level0Connectors implements ConnectorInRoom {
         W(new DiscreteCoordinates(0, 4), new DiscreteCoordinates(8, 5),Orientation.LEFT),
         S(new DiscreteCoordinates(4, 0), new DiscreteCoordinates(5, 8),Orientation.DOWN),
@@ -45,7 +43,7 @@ public class Level0Room extends ICRogueRoom {
         }
 
         public static List<Orientation> getAllConnectorsOrientation() {
-            ArrayList<Orientation> result = new ArrayList<>();
+            List<Orientation> result = new ArrayList<>();
             for(Level0Connectors connectors : values()){
                 result.add(connectors.getOrientation());
             }
@@ -53,7 +51,7 @@ public class Level0Room extends ICRogueRoom {
         }
 
         public static List<DiscreteCoordinates> getAllConnectorsPosition(){
-            ArrayList<DiscreteCoordinates> result = new ArrayList<>();
+            List<DiscreteCoordinates> result = new ArrayList<>();
             for(Level0Connectors connectors : values()){
                 result.add(connectors.getConnectorCoordinates());
             }

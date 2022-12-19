@@ -11,10 +11,10 @@ import java.util.List;
 
 public abstract class Projectile extends ICRogueActor implements Consumable, Interactor {
     //Default damage attribute
-    public final static int DEFAULT_DAMAGE = 1;
+    private final static int DEFAULT_DAMAGE = 1;
 
     //Default move duration attribute
-    public final static int DEFAULT_MOVE_DURATION = 10;
+    private final static int DEFAULT_MOVE_DURATION = 10;
 
     //Move duration of the projectile
     private final int frameForMove;

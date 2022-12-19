@@ -21,9 +21,9 @@ public class Connector extends AreaEntity implements Interactable {
         LOCKED(false, true, "icrogue/lockedDoor_"),
         INVISIBLE(false, true, "icrogue/invisibleDoor_");
 
-        final String spriteName;
-        final boolean isWalkable;
-        final boolean isDrawn;
+        private final String spriteName;
+        private final boolean isWalkable;
+        private final boolean isDrawn;
 
         State(boolean isWalkable, boolean isDrawn, String spriteName){
             this.isWalkable = isWalkable;
@@ -31,11 +31,11 @@ public class Connector extends AreaEntity implements Interactable {
             this.spriteName = spriteName;
         }
     }
+    private final static int NO_KEY_ID = 0;
     private State state;
     private String destTitle;
     private DiscreteCoordinates posDest;
-    private int keyID;
-    public final static int NO_KEY_ID = 0;
+    private Integer keyID;
 
     public Connector(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
@@ -66,7 +66,7 @@ public class Connector extends AreaEntity implements Interactable {
         return destTitle;
     }
 
-    public void setKeyID(int id){
+    public void setKeyID(Integer id){
         keyID = id;
     }
     public int getKeyID() {

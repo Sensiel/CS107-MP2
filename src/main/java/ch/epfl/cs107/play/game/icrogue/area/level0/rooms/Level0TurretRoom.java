@@ -5,7 +5,6 @@ import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0TurretRoom extends Level0EnemyRoom{
-
     public Level0TurretRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         Turret turret1 = new Turret(this, Orientation.UP,new DiscreteCoordinates(1,8), new Orientation[]{Orientation.DOWN, Orientation.RIGHT});

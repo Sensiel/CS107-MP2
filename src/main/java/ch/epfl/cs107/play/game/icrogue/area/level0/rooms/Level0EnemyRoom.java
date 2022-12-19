@@ -5,9 +5,10 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Level0EnemyRoom extends Level0Room{
-    private final ArrayList<Enemy> enemies;
+    private final List<Enemy> enemies;
 
     public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
@@ -46,7 +47,7 @@ public class Level0EnemyRoom extends Level0Room{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        ArrayList<Enemy> toRemove = new ArrayList<>();
+        List<Enemy> toRemove = new ArrayList<>();
 
         for(Enemy enemy : enemies){
             if(enemy.isDead()){

@@ -27,22 +27,21 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     //Durée de mouvement
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = MOVE_DURATION/2;
+    private final static float MAX_HEALTH = 20;
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
-    //private final Sprite[] spriteOrientated; // TODO ajouter des index reconnaissables ( genre HAUT = 0 etc ) ou alors changer de technique pour stocker les sprite
-    private final ArrayList<Integer> keyIds;
+    //private final Sprite[] spriteOrientated;
+    private final List<Integer> keyIds;
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
     private Animation currentAnimation;
 
-    private TextGraphics message;
+    private final TextGraphics hpMeter;
 
     private final Animation[] orientatedAnimation ;
     private boolean ownStaff = false;
-
     private boolean isChangingRoom;
     private String nextArea = "";
     private DiscreteCoordinates nextAreaStartingPos;
-    private final Animation animationsUP, animationsDOWN, animationsLEFT, animationsRIGHT;
 
     private float hp;
 /*
@@ -67,6 +66,21 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
  */
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
+
+        orientatedAnimation = loadPlayerAnimation(spriteName);
+        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
+        keyIds = new ArrayList<>();
+
+        isChangingRoom = false;
+
+        hp = MAX_HEALTH;
+        hpMeter = new TextGraphics(getHealthBar(hp), 0.25f, getHealthColor(hp));
+        hpMeter.setFontName("OpenSans-Bold");
+        hpMeter.setParent(this);
+        hpMeter.setAnchor(new Vector(-0.07f, 1.2f));
+    }
+
+    private Animation[] loadPlayerAnimation(String spriteName) {
         Sprite[] spritesDOWN = new Sprite[4], spritesLEFT = new Sprite[4], spritesUP= new Sprite[4], spritesRIGHT = new Sprite[4];
         Vector anchor = new Vector(.15f, -.15f);
         for(int iFrame = 0; iFrame < 4; ++iFrame) {
@@ -75,20 +89,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             spritesUP[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16,  64, 16, 32), anchor);
             spritesLEFT[iFrame] = new Sprite(spriteName, .75f, 1.5f, this, new RegionOfInterest(iFrame * 16, 96 , 16, 32), anchor);
         }
+        Animation animationsUP, animationsDOWN, animationsLEFT, animationsRIGHT;
         animationsDOWN = new Animation(ANIMATION_DURATION,spritesDOWN);
         animationsLEFT = new Animation(ANIMATION_DURATION,spritesLEFT);
         animationsUP = new Animation(ANIMATION_DURATION,spritesUP);
         animationsRIGHT = new Animation(ANIMATION_DURATION,spritesRIGHT);
 
-        orientatedAnimation = new Animation[]{animationsDOWN, animationsLEFT, animationsUP, animationsRIGHT};
-        setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
-        keyIds = new ArrayList<>();
-        isChangingRoom = false;
-
-        hp = 10;
-        message = new TextGraphics(Integer.toString((int)hp), 0.4f, Color.LIGHT_GRAY);
-        message.setParent(this);
-        message.setAnchor(new Vector(-0.3f, 0.1f));
+         return new Animation[]{animationsDOWN, animationsLEFT, animationsUP, animationsRIGHT};
     }
 
     @Override
@@ -112,8 +119,43 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         }
 
 
-        message.setText(Integer.toString((int)hp));
+        hpMeter.setText(getHealthBar(hp));
+        hpMeter.setFillColor(getHealthColor(hp));
     }
+
+    private String getHealthBar(float hp) {
+        if(hp < 0){
+            return "▁▁▁▁▁";
+        }
+        float percentage = hp*100f/MAX_HEALTH;
+        String result = "";
+
+        while(percentage >= 20f){
+            result += "█";
+            percentage -= 20f;
+        }
+        if(result.length() == 5)
+            return result;
+        String possibilities = "▁▁▂▂▂▂▃▃▄▄▄▄▅▅▆▆▆▆▇▇";
+        result += possibilities.charAt(Integer.min((int)percentage,19));
+        while(result.length() != 5)
+            result += "▁";
+
+        return result;
+    }
+
+    private Color getHealthColor(float hp){
+        if(hp < 0){
+            return Color.BLACK;
+        }
+        float hpNormalized = hp / MAX_HEALTH;
+        float H = hpNormalized * 0.4f;
+        float S = 0.9f;
+        float B = 0.9f;
+
+        return Color.getHSBColor(H, S, B);
+    }
+
     private void setCurrentAnimation(Animation currentAnimation){
         this.currentAnimation = currentAnimation;
     }
@@ -134,7 +176,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     @Override
     public void draw(Canvas canvas) {
         //getSprite().draw(canvas);
-        message.draw(canvas);
+        hpMeter.draw(canvas);
         getCurrentAnimation().draw(canvas);
     }
     private Animation getCurrentAnimation(){ return currentAnimation;}

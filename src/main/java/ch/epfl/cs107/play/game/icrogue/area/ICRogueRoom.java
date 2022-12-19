@@ -16,8 +16,8 @@ import java.util.List;
 public abstract class ICRogueRoom extends Area implements Logic {
     private final DiscreteCoordinates roomCoordinates;
     private final String behaviorName;
+    private final List<Connector> tab;
     private ICRogueBehavior behavior;
-    private final ArrayList<Connector> tab;
     private boolean isRoomVisited;
 
     public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
@@ -37,8 +37,6 @@ public abstract class ICRogueRoom extends Area implements Logic {
     public void setRoomVisited(boolean value){
         this.isRoomVisited = value;
     }
-
-
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {

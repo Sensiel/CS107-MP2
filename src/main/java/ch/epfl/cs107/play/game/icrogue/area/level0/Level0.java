@@ -10,13 +10,6 @@ import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0TurretRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0 extends Level {
-
-    private final int PART_1_KEY_ID = 1;
-    private final int BOSS_KEY_ID = 2;
-
-    private final static DiscreteCoordinates defaultStartRoomCoord = new DiscreteCoordinates(0,0);
-    private final static DiscreteCoordinates defaultPlayerStartingPos = new DiscreteCoordinates(6,3);
-
     public enum RoomType {
         TURRET_ROOM(10),
         STAFF_ROOM(4),
@@ -42,6 +35,11 @@ public class Level0 extends Level {
             return result;
         }
     }
+    private final static DiscreteCoordinates defaultStartRoomCoord = new DiscreteCoordinates(0,0);
+    private final static DiscreteCoordinates defaultPlayerStartingPos = new DiscreteCoordinates(6,3);
+
+    private final int PART_1_KEY_ID = 1;
+    private final int BOSS_KEY_ID = 2;
 
     public Level0(boolean randomMap) {
         super(randomMap, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);

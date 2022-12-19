@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Turret extends Enemy {
-    private final Orientation[] orientations;
     private final static float COOLDOWN = 2.f;
+    private final Orientation[] orientations;
     private float currentCooldown;
 
 
