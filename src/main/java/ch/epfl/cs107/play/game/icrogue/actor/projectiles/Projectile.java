@@ -44,7 +44,7 @@ public abstract class Projectile extends ICRogueActor implements Consumable, Int
      * @param frameForMove (int) : Move duration of the projectile.
      * @param damage (int) : Damage amount of the projectile.
      */
-    public Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, float damage) {
+    protected Projectile(Area owner, Orientation orientation, DiscreteCoordinates coordinates, int frameForMove, float damage) {
         super(owner, orientation, coordinates);
         enterArea(owner, coordinates);
         this.frameForMove = frameForMove;

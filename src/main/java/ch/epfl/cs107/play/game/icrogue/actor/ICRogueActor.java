@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public abstract class ICRogueActor extends MovableAreaEntity {
 
     private Sprite sprite;
-    public ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
+    protected ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
         resetMotion();
     }

@@ -20,7 +20,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
     private ICRogueBehavior behavior;
     private boolean isRoomVisited;
 
-    public ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
+    protected ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
                        String behaviorName, DiscreteCoordinates roomCoordinates){
         tab = new ArrayList<>();
         for(int i = 0; i< connectorsCoordinates.size(); ++i){
@@ -30,7 +30,7 @@ public abstract class ICRogueRoom extends Area implements Logic {
         this.roomCoordinates = roomCoordinates;
         isRoomVisited = false ;
     }
-    public String getBehaviorName(){
+    protected String getBehaviorName(){
         return behaviorName;
     }
 

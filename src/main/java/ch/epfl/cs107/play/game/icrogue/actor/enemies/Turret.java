@@ -59,7 +59,7 @@ public class Turret extends Enemy {
         }
     }
 
-    public void attack() {
+    private void attack() {
         for (Orientation orientation : orientations) {
             Arrow arrow = new Arrow(getOwnerArea(), orientation, getCurrentMainCellCoordinates());
             arrow.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());

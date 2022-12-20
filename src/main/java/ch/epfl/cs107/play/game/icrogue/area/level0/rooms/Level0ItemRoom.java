@@ -9,14 +9,14 @@ import java.util.List;
 public abstract class Level0ItemRoom extends Level0Room {
     private final List<Item> items;
 
-    public Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
+    protected Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         items = new ArrayList<>();
     }
 
 
 
-    public void addItem(Item item){
+    protected void addItem(Item item){
         items.add(item);
     }
 

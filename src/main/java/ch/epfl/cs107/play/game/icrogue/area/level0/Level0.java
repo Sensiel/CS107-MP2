@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0TurretRoom;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0 extends Level {
-    public enum RoomType {
+    private enum RoomType {
         TURRET_ROOM(10),
         STAFF_ROOM(4),
         BOSS_KEY(2),
@@ -23,11 +23,11 @@ public class Level0 extends Level {
             this.nbRoom = nbRoom;
         }
 
-        public int getNbRoom() {
+        private int getNbRoom() {
             return nbRoom;
         }
 
-        public static int[] getRoomDistribution(){
+        private static int[] getRoomDistribution(){
             int[] result = new int[RoomType.values().length];
             for(int iValue = 0; iValue < result.length; iValue++){
                 result[iValue] = RoomType.values()[iValue].getNbRoom();

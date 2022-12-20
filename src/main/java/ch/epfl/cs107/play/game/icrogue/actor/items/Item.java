@@ -29,7 +29,7 @@ public abstract class Item extends CollectableAreaEntity {
      * set a Sprite to represent the item
      * @param sprite (Sprite) : The sprite that represents the item. Not null
      */
-    public void setSprite(Sprite sprite){
+    protected void setSprite(Sprite sprite){
         item = sprite;
     }
 

@@ -9,7 +9,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public abstract class Enemy extends ICRogueActor {
     private boolean isDead;
 
-    public Enemy(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
+    protected Enemy(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
         isDead = false;
     }

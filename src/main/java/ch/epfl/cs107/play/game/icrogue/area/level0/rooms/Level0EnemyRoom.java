@@ -10,7 +10,7 @@ import java.util.List;
 public class Level0EnemyRoom extends Level0Room{
     private final List<Enemy> enemies;
 
-    public Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
+    protected Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         enemies = new ArrayList<>();
     }

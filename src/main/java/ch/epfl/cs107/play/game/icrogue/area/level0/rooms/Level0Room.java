@@ -34,15 +34,15 @@ public class Level0Room extends ICRogueRoom {
         public DiscreteCoordinates getDestination() {
             return destCoordinates;
         }
-        public Orientation getOrientation(){
+        private Orientation getOrientation(){
             return orientation;
         }
 
-        public DiscreteCoordinates getConnectorCoordinates() {
+        private DiscreteCoordinates getConnectorCoordinates() {
             return connectorCoordinates;
         }
 
-        public static List<Orientation> getAllConnectorsOrientation() {
+        private static List<Orientation> getAllConnectorsOrientation() {
             List<Orientation> result = new ArrayList<>();
             for(Level0Connectors connectors : values()){
                 result.add(connectors.getOrientation());
@@ -50,7 +50,7 @@ public class Level0Room extends ICRogueRoom {
             return result;
         }
 
-        public static List<DiscreteCoordinates> getAllConnectorsPosition(){
+        private static List<DiscreteCoordinates> getAllConnectorsPosition(){
             List<DiscreteCoordinates> result = new ArrayList<>();
             for(Level0Connectors connectors : values()){
                 result.add(connectors.getConnectorCoordinates());

@@ -21,7 +21,7 @@ public class ICRogueBehavior extends AreaBehavior{
             this.isWalkable = isWalkable;
         }
 
-        public static ICRogueBehavior.ICRogueCellType toType(int type){
+        private static ICRogueBehavior.ICRogueCellType toType(int type){
             for(ICRogueBehavior.ICRogueCellType ict : ICRogueBehavior.ICRogueCellType.values()){
                 if(ict.type == type)
                     return ict;
@@ -51,7 +51,7 @@ public class ICRogueBehavior extends AreaBehavior{
         private final ICRogueBehavior.ICRogueCellType type;
 
 
-        public  ICRogueCell(int x, int y, ICRogueBehavior.ICRogueCellType type){
+        private ICRogueCell(int x, int y, ICRogueBehavior.ICRogueCellType type){
             super(x, y);
             this.type = type;
         }

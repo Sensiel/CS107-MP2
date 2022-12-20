@@ -58,11 +58,11 @@ public abstract class Level implements Logic {
         }
     }
 
-    public void setStartRoomCoord(DiscreteCoordinates startRoomCoord) {
+    protected void setStartRoomCoord(DiscreteCoordinates startRoomCoord) {
         this.startRoomCoord = startRoomCoord;
     }
 
-    public DiscreteCoordinates getStartRoomCoord() {
+    protected DiscreteCoordinates getStartRoomCoord() {
         return startRoomCoord;
     }
 
@@ -92,7 +92,7 @@ public abstract class Level implements Logic {
 
     protected abstract void createRoom(int type, DiscreteCoordinates coord);
 
-    protected MapState[][] generateRandomRoomPlacement(){
+    private MapState[][] generateRandomRoomPlacement(){
         MapState[][] result = new MapState[width][height];
         //Initialisation de la map
         for(int x = 0; x < width; x++){
@@ -202,14 +202,14 @@ public abstract class Level implements Logic {
     /*----------------------------*/
 
 
-    public void setStartRoomTitle(DiscreteCoordinates coords) {
+    protected void setStartRoomTitle(DiscreteCoordinates coords) {
         this.startRoomTitle = map[coords.x][coords.y].getTitle();
     }
     public String getStartRoomTitle() {
         return startRoomTitle;
     }
 
-    public Level(boolean randomMap, DiscreteCoordinates playerStartingPos, int[] roomsDistribution, int width, int height){
+    protected Level(boolean randomMap, DiscreteCoordinates playerStartingPos, int[] roomsDistribution, int width, int height){
         this.playerStartingPos = playerStartingPos;
 
         if(randomMap){
@@ -231,7 +231,7 @@ public abstract class Level implements Logic {
 
     protected abstract void generateFixedMap();
 
-    protected void generateRandomMap(){
+    private void generateRandomMap(){
         roomPlacement = generateRandomRoomPlacement();
         for(int iType = 0; iType < roomDistribution.length; iType++){
 

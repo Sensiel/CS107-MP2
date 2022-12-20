@@ -241,7 +241,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return true;
     }
 
-    public boolean ownStaff() {
+    private boolean ownStaff() {
         return ownStaff;
     }
 
