@@ -7,15 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Level0ItemRoom extends Level0Room {
+    //list of the items presents in the room
     private final List<Item> items;
 
+    /**
+     * Default Level0ItemRoom constructor
+     * @param roomCoordinates (DiscreteCoordinates) : the room's coordinates
+     */
     protected Level0ItemRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         items = new ArrayList<>();
     }
 
 
-
+    /**
+     * Add an item to the room
+     * @param item (Item): the item to add
+     */
     protected void addItem(Item item){
         items.add(item);
     }
@@ -31,7 +39,7 @@ public abstract class Level0ItemRoom extends Level0Room {
 
     @Override
     public boolean isOn() {
-        if(!super.isOn()) // isOff marche pas pck ça boucle à l'infini
+        if(!super.isOn())
             return false;
         for(Item item : items) {
             if (!item.isCollected())

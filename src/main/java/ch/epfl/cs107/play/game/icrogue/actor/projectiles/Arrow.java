@@ -14,9 +14,18 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Arrow extends Projectile{
+    //Arrow damage amount
     private final static float ARROW_DAMAGE = 1;
+
+    //Arrow's handler
     private final Arrow.ICRogueArrowInteractionHandler handler = new Arrow.ICRogueArrowInteractionHandler();
 
+    /**
+     * Default Arrow constructor
+     * @param owner (Area): Owner area. Not null
+     * @param coordinates (Coordinate): Initial position of the fire. Not null
+     * @param orientation (Orientation): Initial orientation of the fire. Not null
+     */
     public Arrow(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates, 5, ARROW_DAMAGE);
         setSprite(new Sprite("zelda/arrow", 1f, 1f, this,

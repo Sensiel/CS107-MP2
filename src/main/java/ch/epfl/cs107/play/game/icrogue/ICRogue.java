@@ -47,19 +47,22 @@ public class ICRogue extends AreaGame {
     public void update(float deltaTime) {
         super.update(deltaTime);
         Keyboard keyboard = getWindow().getKeyboard();
+        // If the R key is pressed, the level is reset
         if (keyboard.get(Keyboard.R).isPressed()) {
             initLevel();
         }
+        // If the player is changing rooms
         if(player.isChangingRoom()){
             switchRoom();
             player.setChangingRoom(false);
         }
+        //If the game is over (by level resolution or player death)
         if(currentLevel.isOn()){
             System.out.println("Win");
         }
         else if(player.isDead()){
             System.out.println("Game Over");
-        } // TODO peut être arreter le jeu
+        }
     }
 
     /**
@@ -67,6 +70,7 @@ public class ICRogue extends AreaGame {
      */
     protected void switchRoom() {
         player.leaveArea();
+        //We get the next room the player will enter
         ICRogueRoom nextRoom = (ICRogueRoom) setCurrentArea(player.getNextArea(), false);
         player.enterArea(nextRoom, player.getNextAreaStartingPos());
     }

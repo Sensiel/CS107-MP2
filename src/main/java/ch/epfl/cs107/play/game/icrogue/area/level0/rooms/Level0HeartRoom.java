@@ -5,6 +5,11 @@ import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0HeartRoom extends Level0ItemRoom{
+
+    /**
+     * Default Level0HeartRoom constructor
+     * @param roomCoordinates ( DiscreteCoordinates ) : the coordinates of the room
+     */
     public Level0HeartRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
         Heart heart = new Heart(this, Orientation.LEFT,new DiscreteCoordinates(2,4));

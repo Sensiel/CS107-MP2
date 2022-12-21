@@ -26,48 +26,52 @@ import java.util.List;
 
 public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
-    //Durée de mouvement
+    //Movement time
     private final static int MOVE_DURATION = 8;
 
-    //Durée de l'animation de mouvement
+    //Duration of the motion animation
     private final static int ANIMATION_DURATION = MOVE_DURATION/2;
 
-    //Vie maximum du player
+    //Maximum player life
     private final static float MAX_HEALTH = 20;
 
-    // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
-    //private final Sprite[] spriteOrientated;
-
-    //Id de clé déjà collecté
+    //Key Id already collected
     private final List<Integer> keyIds;
 
-    //Handler du player
+    //Handler of the player
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
 
-    //Animation actuelle
+    //Current animation
     private Animation currentAnimation;
 
-    //Barre de vie
+    //Life bar
     private final TextGraphics hpMeter;
 
-    //Array des différentes animations de mouvement en fonction de l'orientation
+    //Array of different motion animations depending on the orientation
     private final Animation[] orientatedAnimation ;
 
-    //Booleen de la possession de baton magique
+    //Boolean of possession of magic stick
     private boolean ownStaff = false;
 
-    //Booléen de changement de salle
+    //Boolean for room change
     private boolean isChangingRoom;
 
-    //Nom de la salle dans laquelle le joueur entre
+    //Name of the room the player enters
     private String nextArea = "";
 
-    //Position du joueur lorsqu'il entrera dans la salle suivante
+    //Position of the player when entering the next room
     private DiscreteCoordinates nextAreaStartingPos;
 
-    //niveau de vie du joueur
+    //player's current health
     private float hp;
-/*
+
+
+    //Old constructor for sprite ( if you uncomment this one please comment the other, and do the modification in the update method)
+    /*
+
+    // Sprite of respectively UP, RIGHT, DOWN, LEFT
+    private final Sprite[] spriteOrientated;
+
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
         super(owner, orientation, coordinates);
         spriteOrientated = new Sprite[]{
@@ -86,16 +90,37 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         hp = 10;
     }
 
- */
-    public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
+    private int getSpriteIndexFromOrientation(Orientation orientation){
+        return switch (orientation) {
+            case UP -> 0;
+            case RIGHT -> 1;
+            case DOWN -> 2;
+            case LEFT -> 3;
+        };
+    }
+
+    */
+
+    /**
+     * Default ICRogueRoom constructor
+     * @param owner (Area) : the owner Area
+     * @param orientation (Orientation) : the starting Orientation of the player
+     * @param coordinates (DiscreteCoordinates) : the starting coordinates of the player
+     * @param spriteName (String) : the sprite name of the player
+     */
+    public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
         super(owner, orientation, coordinates);
 
+
+        //Setting up animation
         orientatedAnimation = loadPlayerAnimation(spriteName);
         setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(orientation)]);
+
         keyIds = new ArrayList<>();
 
         isChangingRoom = false;
 
+        // Setting up health and health bar
         hp = MAX_HEALTH;
         hpMeter = new TextGraphics(getHealthBar(hp), 0.25f, getHealthColor(hp));
         hpMeter.setFontName("OpenSans-Bold");
@@ -170,12 +195,16 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         float percentage = hp*100f/MAX_HEALTH;
         String result = "";
 
+        // for each 20% add a full health square
         while(percentage >= 20f){
             result += "█";
             percentage -= 20f;
         }
+        //if the life is total just return
         if(result.length() == 5)
             return result;
+
+        //add the character relative to the rest's percentage
         String possibilities = "▁▁▂▂▂▂▃▃▄▄▄▄▅▅▆▆▆▆▇▇";
         result += possibilities.charAt(Integer.min((int)percentage,19));
         while(result.length() != 5)
@@ -230,17 +259,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         getCurrentAnimation().draw(canvas);
     }
     private Animation getCurrentAnimation(){ return currentAnimation;}
-/*
-    private int getSpriteIndexFromOrientation(Orientation orientation){
-        return switch (orientation) {
-            case UP -> 0;
-            case RIGHT -> 1;
-            case DOWN -> 2;
-            case LEFT -> 3;
-        };
-    }
 
- */
     /**
      * Return the index of the movement animation associated with a given Orientation
      * @param orientation : the given orientation
@@ -301,14 +320,24 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return true;
     }
 
+    /**
+     * @return ownStaff
+     */
     private boolean ownStaff() {
         return ownStaff;
     }
 
+    /**
+     * @return if the player is currently changing room
+     */
     public boolean isChangingRoom() {
         return isChangingRoom;
     }
 
+    /**
+     * set the room the player is changing to
+     * @param changingRoom the room the player is changing to
+     */
     public void setChangingRoom(boolean changingRoom) {
         isChangingRoom = changingRoom;
     }
@@ -319,14 +348,23 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         ((ICRogueRoom)getOwnerArea()).setRoomVisited(true);
     }
 
+    /**
+     * @return the starting position in the next room the player is changing to
+     */
     public DiscreteCoordinates getNextAreaStartingPos() {
         return nextAreaStartingPos;
     }
 
+    /**
+     * @return the room the player is changing to
+     */
     public String getNextArea() {
         return nextArea;
     }
 
+    /**
+     * @return if the player is ded
+     */
     public boolean isDead(){
         return (hp <= 0);
     }
@@ -360,7 +398,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction && !isDisplacementOccurs()){
                 setChangingRoom(true);
                 nextArea = connector.getDestTitle();
-                System.out.println(connector.getPosDest());
                 nextAreaStartingPos = connector.getPosDest();
             }
             else if(!isCellInteraction){

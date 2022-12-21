@@ -29,6 +29,13 @@ public abstract class ICRogueRoom extends Area implements Logic {
     //Boolean indicating if the room has been visited already
     private boolean isRoomVisited;
 
+    /**
+     * Default ICRogueRoom constructor
+     * @param connectorsCoordinates  (List<DiscreteCoordinates>) : The coordinates of the connectors in the room
+     * @param orientations (List<Orientation>) : The orientation of the connectors in the room
+     * @param behaviorName (String) : The behavior of the room
+     * @param roomCoordinates (DiscreteCoordinates) : the coordinates of the room in the level
+     */
     protected ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
                        String behaviorName, DiscreteCoordinates roomCoordinates){
         tab = new ArrayList<>();
@@ -39,10 +46,18 @@ public abstract class ICRogueRoom extends Area implements Logic {
         this.roomCoordinates = roomCoordinates;
         isRoomVisited = false ;
     }
+
+    /**
+     * @return the behavior name
+     */
     protected String getBehaviorName(){
         return behaviorName;
     }
 
+    /**
+     * Set isRoomVisited to a certain value
+     * @param value : boolean telling if the room is visited or not
+     */
     public void setRoomVisited(boolean value){
         this.isRoomVisited = value;
     }
@@ -69,23 +84,44 @@ public abstract class ICRogueRoom extends Area implements Logic {
         }
     }
 
+    /**
+     * @return the Camera scale factor
+     */
     public final float getCameraScaleFactor() {
         return ICRogue.CAMERA_SCALE_FACTOR;
     }
 
+    /**
+     * @return the room's coordinates
+     */
     public DiscreteCoordinates getRoomCoordinates() {
         return roomCoordinates;
     }
 
+    /**
+     * Set a connector's destination ( room and position in the room ) given its type and destination
+     * @param connector (ConnectorInRoom) : The type of connector
+     * @param dest (String) : The destination title
+     */
     public void setConnectorDestination(ConnectorInRoom connector, String dest){
         tab.get(connector.getIndex()).setDestTitle(dest);
         tab.get(connector.getIndex()).setPosDest(connector.getDestination());
     }
 
+    /**
+     * Set a connector's state given its type and state
+     * @param connector (ConnectorInRoom): The type of connector
+     * @param state (Connector.State) : The connector's state
+     */
     public void setConnectorState(ConnectorInRoom connector, Connector.State state){
         tab.get(connector.getIndex()).setState(state);
     }
 
+    /**
+     * Set the key required for a specific connector given its type and key id
+     * @param connector (ConnectorInRoom): The type of connector
+     * @param keyID (int) : The key id
+     */
     public void setConnectorKeyID(ConnectorInRoom connector, int keyID){
         tab.get(connector.getIndex()).setKeyID(keyID);
     }

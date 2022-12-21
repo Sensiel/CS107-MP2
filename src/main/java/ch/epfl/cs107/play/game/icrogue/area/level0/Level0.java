@@ -7,6 +7,9 @@ import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0 extends Level {
+    /**
+     * Enum reprensenting the different room's type and their distribution in the case of a random generation of Level0
+     */
     private enum RoomType {
         TURRET_ROOM(10),
         STAFF_ROOM(4),
@@ -14,16 +17,27 @@ public class Level0 extends Level {
         SPAWN(1),
         NORMAL(15);
 
+        // the number of a certain type of room
         private final int nbRoom;
 
+        /**
+         * Default RoomType constructor
+         * @param nbRoom : the number of room of that type
+         */
         RoomType(int nbRoom){
             this.nbRoom = nbRoom;
         }
 
+        /**
+         * @return the number of room of that type
+         */
         private int getNbRoom() {
             return nbRoom;
         }
 
+        /**
+         * @return the array representing the room distribution in a level0 randomly generated map
+         */
         private static int[] getRoomDistribution(){
             int[] result = new int[RoomType.values().length];
             for(int iValue = 0; iValue < result.length; iValue++){
@@ -32,21 +46,39 @@ public class Level0 extends Level {
             return result;
         }
     }
+
+    // The default width of a fixed level0 map
+    private final static int DEFAULT_WIDTH = 4;
+
+    // The default height of a fixed level0 map
+    private final static int DEFAULT_HEIGHT= 2;
+
+    // The default starting room's coordinates of a fixed level0 map
     private final static DiscreteCoordinates defaultStartRoomCoord = new DiscreteCoordinates(0,0);
+
+    // The default starting player's position in a level0 map
     private final static DiscreteCoordinates defaultPlayerStartingPos = new DiscreteCoordinates(6,3);
 
     private final int PART_1_KEY_ID = 1;
+
+    // the key id for the boss' room
     private final int BOSS_KEY_ID = 2;
 
-    public Level0(boolean randomMap) {
-        super(randomMap, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
-        if(!randomMap)
-            setStartRoomCoord(defaultStartRoomCoord);
-        setStartRoomTitle(getStartRoomCoord());
+    /**
+     * Default Level0 constructor ( random generation by default )
+     */
+    public Level0(){
+        this(true);
     }
 
-    public Level0(){
-        super(true, defaultPlayerStartingPos, RoomType.getRoomDistribution(), 4,2);
+    /**
+     * Alternative Level0 constructor
+     * @param randomMap ( boolean ) : boolean telling if the generation is random or not
+     */
+    public Level0(boolean randomMap) {
+        super(randomMap, defaultPlayerStartingPos, RoomType.getRoomDistribution(), DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        if(!randomMap)
+            setStartRoomCoord(defaultStartRoomCoord);
         setStartRoomTitle(getStartRoomCoord());
     }
 
@@ -70,17 +102,22 @@ public class Level0 extends Level {
             case STAFF_ROOM -> currentRoom = new Level0HeartRoom(coord);
             default -> currentRoom = new Level0Room(coord);
         }
-        System.out.println(coord);
         setRoom(coord, currentRoom);
     }
 
     @Override
     protected void setUpConnector(MapState[][] roomsPlacement, ICRogueRoom room) {
         DiscreteCoordinates coord = room.getRoomCoordinates();
-        int[] connectorIndexByOrientationOrdinal = {3, 2, 1, 0};//the index of the ConnectorInRoom based on his Orientation ordinal
+
+        //the index of the ConnectorInRoom based on his Orientation ordinal
+        int[] connectorIndexByOrientationOrdinal = {3, 2, 1, 0};
+
         for(Orientation orientation : Orientation.values()){
+
             DiscreteCoordinates neighbour = coord.jump(orientation.toVector());
+
             if(isInBound(neighbour) && !roomsPlacement[neighbour.x][neighbour.y].equals(MapState.NULL)){
+
                 Orientation connectorOrientation = orientation.opposite();
                 int connectorIndex = connectorIndexByOrientationOrdinal[connectorOrientation.ordinal()];
                 setRoomConnector(neighbour, room.getTitle(), Level0Room.Level0Connectors.values()[connectorIndex]);
@@ -89,20 +126,28 @@ public class Level0 extends Level {
     }
 
     @Override
-    protected void setUpLockedConnector(MapState[][] roomsPlacement, ICRogueRoom room){ // Change it to make it for any locked door
+    protected void setUpLockedConnector(MapState[][] roomsPlacement, ICRogueRoom room, int keyID){
         DiscreteCoordinates coord = room.getRoomCoordinates();
+
         int[] connectorIndexByOrientationOrdinal = {3, 2, 1, 0};//the index of the ConnectorInRoom based on his Orientation ordinal
+
         for(Orientation orientation : Orientation.values()){
+
             DiscreteCoordinates neighbour = coord.jump(orientation.toVector());
+
             if(isInBound(neighbour) && !roomsPlacement[neighbour.x][neighbour.y].equals(MapState.NULL)){
+
                 Orientation connectorOrientation = orientation.opposite();
                 int connectorIndex = connectorIndexByOrientationOrdinal[connectorOrientation.ordinal()];
                 setRoomConnector(neighbour, room.getTitle(), Level0Room.Level0Connectors.values()[connectorIndex]);
-                lockRoomConnector(neighbour, Level0Room.Level0Connectors.values()[connectorIndex], BOSS_KEY_ID);
+                lockRoomConnector(neighbour, Level0Room.Level0Connectors.values()[connectorIndex], keyID);
             }
         }
     }
 
+    /**
+     * Example of fixed generation
+     */
     private void generateMap1() {
         DiscreteCoordinates room00 = new DiscreteCoordinates(0, 0);
         setRoom(room00, new Level0KeyRoom(room00, PART_1_KEY_ID));
@@ -114,6 +159,9 @@ public class Level0 extends Level {
         setRoomConnector(room10, "icrogue/level000", Level0Room.Level0Connectors.W);
     }
 
+    /**
+     * Example of fixed generation
+     */
     private void generateFinalMap() {
         DiscreteCoordinates room00 = new DiscreteCoordinates(0, 0);
         setRoom(room00, new Level0TurretRoom(room00));

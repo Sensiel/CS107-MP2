@@ -18,6 +18,7 @@ import ch.epfl.cs107.play.window.Canvas;
  */
 public class Fire extends Projectile{
 
+    //Fire's handler
     private final ICRogueFireInteractionHandler handler = new ICRogueFireInteractionHandler();
 
     /**

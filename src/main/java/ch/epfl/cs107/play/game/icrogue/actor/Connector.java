@@ -36,44 +36,91 @@ public class Connector extends AreaEntity implements Interactable {
             this.spriteName = spriteName;
         }
     }
-    private final static int NO_KEY_ID = 0;
-    private State state;
-    private String destTitle;
-    private DiscreteCoordinates posDest;
-    private Integer keyID;
 
+    //Default id for a door with no key id given
+    private final static int NO_KEY_ID = 0;
+
+    //State of the connector
+    private State state;
+
+    // Title of the connector's destination
+    private String destTitle;
+
+    //Position in the destination room
+    private DiscreteCoordinates posDest;
+
+    // Key id of the connector
+    private int keyID;
+
+    /**
+     * Default Connector constructor
+     * @param owner (Area) : the owner Area
+     * @param orientation (Orientation) : The orientation of the connector
+     * @param coordinates (DiscreteCoordinates) : the coordinates of the connector
+     */
     public Connector(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
         this.state = State.INVISIBLE;
         keyID = NO_KEY_ID;
     }
 
+    /**
+     * Set the connector's state
+     * @param state : the state to set
+     */
     public void setState(State state){
         this.state = state;
     }
+
+
+    /**
+     * @return the connector's state
+     */
     public State getState(){
         return state;
     }
 
+    /**
+     * Set the connector's destination title
+     * @param areaTitle (String) : the title of the destination
+     */
     public void setDestTitle(String areaTitle){
         destTitle = areaTitle;
     }
 
+    /**
+     * Set the destination position in the connector's destination room
+     * @param pos (DiscreteCoordinates) : the coordinates of the destination position
+     */
     public void setPosDest(DiscreteCoordinates pos){
         posDest = pos;
     }
 
+    /**
+     * @return the coordinates of the destination position
+     */
     public DiscreteCoordinates getPosDest() {
         return posDest;
     }
 
+    /**
+     * @return the connector's destination title
+     */
     public String getDestTitle() {
         return destTitle;
     }
 
-    public void setKeyID(Integer id){
+    /**
+     * Set the key ID
+     * @param id : the id to set
+     */
+    public void setKeyID(int id){
         keyID = id;
     }
+
+    /**
+     * @return the key ID
+     */
     public int getKeyID() {
         return keyID;
     }

@@ -8,7 +8,15 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public abstract class ICRogueActor extends MovableAreaEntity {
 
+    //The actor's Sprite
     private Sprite sprite;
+
+    /**
+     * Default ICRogueActor constructor
+     * @param owner : The Area owner
+     * @param orientation : The starting orientation of the actor
+     * @param coordinates : The starting coordinates of the actor
+     */
     protected ICRogueActor(Area owner, Orientation orientation, DiscreteCoordinates coordinates) {
         super(owner, orientation, coordinates);
         resetMotion();
@@ -19,6 +27,9 @@ public abstract class ICRogueActor extends MovableAreaEntity {
         super.update(deltaTime);
     }
 
+    /**
+     * Make the actor leave its Area
+     */
     public void leaveArea(){
         getOwnerArea().unregisterActor(this);
     }
@@ -51,10 +62,18 @@ public abstract class ICRogueActor extends MovableAreaEntity {
         return false;
     }
 
+
+    /**
+     * @return the actor's sprite
+     */
     public Sprite getSprite() {
         return sprite;
     }
 
+    /**
+     * Set a specific sprite to the actor
+     * @param sprite (Sprite) : the sprite to set
+     */
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
     }

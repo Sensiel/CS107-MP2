@@ -12,6 +12,9 @@ import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 
+/**
+ * A basic handler interface
+ */
 public interface ICRogueInteractionHandler extends AreaInteractionVisitor {
     default void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction){
 

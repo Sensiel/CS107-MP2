@@ -27,6 +27,9 @@ public class Turret extends Enemy {
 
     }
 
+    /**
+     * Reset the cooldown of arrow's drawing
+     */
     private void resetCooldown() {
         currentCooldown = 0f;
     }
@@ -57,6 +60,11 @@ public class Turret extends Enemy {
             attack();
             resetCooldown();
         }
+    }
+
+    @Override
+    public void killEnemy() {
+        super.killEnemy();
     }
 
     private void attack() {
