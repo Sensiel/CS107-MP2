@@ -14,10 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ICRogueRoom extends Area implements Logic {
+    //The coordinates of the room
     private final DiscreteCoordinates roomCoordinates;
+
+    // The name of the file containing the behavior of the room
     private final String behaviorName;
+
+    //The list of Connector present in this room
     private final List<Connector> tab;
+
+    //The room's behavior
     private ICRogueBehavior behavior;
+
+    //Boolean indicating if the room has been visited already
     private boolean isRoomVisited;
 
     protected ICRogueRoom(List<DiscreteCoordinates> connectorsCoordinates, List<Orientation> orientations,
@@ -50,11 +59,16 @@ public abstract class ICRogueRoom extends Area implements Logic {
         return false;
     }
 
+
+    /**
+     * Method registering and configuring every actor of the room
+     */
     protected void createArea() {
         for (Connector connector : tab) {
             registerActor(connector);
         }
     }
+
     public final float getCameraScaleFactor() {
         return ICRogue.CAMERA_SCALE_FACTOR;
     }

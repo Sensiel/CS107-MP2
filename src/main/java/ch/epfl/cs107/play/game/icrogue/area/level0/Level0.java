@@ -3,10 +3,7 @@ package ch.epfl.cs107.play.game.icrogue.area.level0;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.area.Level;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0KeyRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0Room;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0StaffRoom;
-import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.Level0TurretRoom;
+import ch.epfl.cs107.play.game.icrogue.area.level0.rooms.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Level0 extends Level {
@@ -70,7 +67,7 @@ public class Level0 extends Level {
             }
             case NORMAL -> currentRoom = new Level0Room(coord);
             case BOSS_KEY -> currentRoom = new Level0KeyRoom(coord, BOSS_KEY_ID);
-            case STAFF_ROOM -> currentRoom = new Level0StaffRoom(coord);
+            case STAFF_ROOM -> currentRoom = new Level0HeartRoom(coord);
             default -> currentRoom = new Level0Room(coord);
         }
         System.out.println(coord);

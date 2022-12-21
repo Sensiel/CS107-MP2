@@ -21,8 +21,13 @@ public class Connector extends AreaEntity implements Interactable {
         LOCKED(false, true, "icrogue/lockedDoor_"),
         INVISIBLE(false, true, "icrogue/invisibleDoor_");
 
+        //The sprite name of the connector state
         private final String spriteName;
+
+        //Boolean indicating if the player can walk through a connector in this state
         private final boolean isWalkable;
+
+        //Boolean indicating if a connector in this state has to be drawn
         private final boolean isDrawn;
 
         State(boolean isWalkable, boolean isDrawn, String spriteName){
@@ -107,12 +112,15 @@ public class Connector extends AreaEntity implements Interactable {
         }
     }
 
+    /**
+     * @return Sprite : the current sprite of the connector. May be null if the connector doesn't need to be drawn
+     */
     public Sprite getSprite(){
         if(!getState().isDrawn){
             return null;
         }
 
-        return new Sprite(getState().spriteName + (getOrientation().ordinal() % 4), // TODO post forum pck ils ont donné un truc faux
+        return new Sprite(getState().spriteName + (getOrientation().ordinal() % 4),
                         (getOrientation().ordinal()+1)%2+1, getOrientation().ordinal()%2+1, this);
     }
 }

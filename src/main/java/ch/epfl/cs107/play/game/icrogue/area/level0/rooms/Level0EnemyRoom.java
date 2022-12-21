@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Level0EnemyRoom extends Level0Room{
+    //list of the enemies presents in the room
     private final List<Enemy> enemies;
 
     protected Level0EnemyRoom(DiscreteCoordinates roomCoordinates) {

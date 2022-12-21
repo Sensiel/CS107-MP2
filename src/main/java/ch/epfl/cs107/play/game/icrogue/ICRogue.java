@@ -14,12 +14,19 @@ public class ICRogue extends AreaGame {
     public final static float CAMERA_SCALE_FACTOR = 11f;
 
     private ICRoguePlayer player;
+
+    //The level the player is currently in
     private Level0 currentLevel;
 
     @Override
     public String getTitle() {
         return "ICRogue";
     }
+
+
+    /**
+     * Method initialising the current Level
+     */
     private void initLevel(){
         currentLevel = new Level0();
         currentLevel.addAreas(this);
@@ -55,6 +62,9 @@ public class ICRogue extends AreaGame {
         } // TODO peut être arreter le jeu
     }
 
+    /**
+     * Utility method making the player switching current Room
+     */
     protected void switchRoom() {
         player.leaveArea();
         ICRogueRoom nextRoom = (ICRogueRoom) setCurrentArea(player.getNextArea(), false);

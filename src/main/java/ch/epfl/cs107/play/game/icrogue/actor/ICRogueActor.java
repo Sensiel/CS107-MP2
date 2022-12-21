@@ -23,6 +23,12 @@ public abstract class ICRogueActor extends MovableAreaEntity {
         getOwnerArea().unregisterActor(this);
     }
 
+
+    /**
+     * Make the actor enter a given Area
+     * @param area : the Area in which the actor enter
+     * @param position :  the position of the actor in this Area
+     */
     public void enterArea(Area area, DiscreteCoordinates position){
         area.registerActor(this);
         setOwnerArea(area);

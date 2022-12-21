@@ -50,7 +50,7 @@ public class Arrow extends Projectile{
         @Override
         public void interactWith(ICRoguePlayer player, boolean isCellInteraction) {
             if(isCellInteraction && !isConsumed()) {
-                player.updateHp(ARROW_DAMAGE);
+                player.updateHp(-ARROW_DAMAGE);
                 consume();
             }
         }

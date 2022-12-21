@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 
 public class Heart extends Item{
 
@@ -18,14 +19,12 @@ public class Heart extends Item{
      */
     public Heart(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        setSprite(new Sprite("zelda/heart", 0.8f, 0.8f, this));
+        setSprite(new Sprite("zelda/heart", .8f, 0.8f, this, new RegionOfInterest(0,  0, 16, 16)));
 
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICRogueInteractionHandler) v).interactWith(this , isCellInteraction);
-
-
     }
 }

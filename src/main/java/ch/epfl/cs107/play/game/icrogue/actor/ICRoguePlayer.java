@@ -28,23 +28,44 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
 
     //Durée de mouvement
     private final static int MOVE_DURATION = 8;
+
+    //Durée de l'animation de mouvement
     private final static int ANIMATION_DURATION = MOVE_DURATION/2;
+
+    //Vie maximum du player
     private final static float MAX_HEALTH = 20;
 
     // Sprite de respectivement HAUT, DROITE, BAS, GAUCHE
     //private final Sprite[] spriteOrientated;
+
+    //Id de clé déjà collecté
     private final List<Integer> keyIds;
+
+    //Handler du player
     private final ICRoguePlayerInteractionHandler handler = new ICRoguePlayerInteractionHandler();
+
+    //Animation actuelle
     private Animation currentAnimation;
 
+    //Barre de vie
     private final TextGraphics hpMeter;
 
+    //Array des différentes animations de mouvement en fonction de l'orientation
     private final Animation[] orientatedAnimation ;
+
+    //Booleen de la possession de baton magique
     private boolean ownStaff = false;
+
+    //Booléen de changement de salle
     private boolean isChangingRoom;
+
+    //Nom de la salle dans laquelle le joueur entre
     private String nextArea = "";
+
+    //Position du joueur lorsqu'il entrera dans la salle suivante
     private DiscreteCoordinates nextAreaStartingPos;
 
+    //niveau de vie du joueur
     private float hp;
 /*
     public ICRoguePlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) { // spriteName : zelda/player
@@ -82,6 +103,12 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         hpMeter.setAnchor(new Vector(-0.07f, 1.2f));
     }
 
+
+    /**
+     * Configurate the different animations used in the player's movements
+     * @param spriteName spriteName :  Name of the file that contains the player's animations
+     * @return Animation[] : possible animations of the Player
+     */
     private Animation[] loadPlayerAnimation(String spriteName) {
         Sprite[] spritesDOWN = new Sprite[4], spritesLEFT = new Sprite[4], spritesUP= new Sprite[4], spritesRIGHT = new Sprite[4];
         Vector anchor = new Vector(.15f, -.15f);
@@ -100,6 +127,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
          return new Animation[]{animationsDOWN, animationsLEFT, animationsUP, animationsRIGHT};
     }
 
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -110,11 +138,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
+        //If the player is still, reset the animation
         if(!isDisplacementOccurs())
             currentAnimation.reset();
         else
             currentAnimation.update(deltaTime);
 
+        //If the player is trying to do magic and he has a staff, make it create firebolt
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
@@ -125,10 +155,18 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         hpMeter.setFillColor(getHealthColor(hp));
     }
 
+    /**
+     * return the String representing the Health bar of the player, depending of its current health
+     * @param hp : the health of the player
+     * @return String healthbar
+     */
     private String getHealthBar(float hp) {
+        // If the player health is negative, return an empty health bar
         if(hp < 0){
             return "▁▁▁▁▁";
         }
+
+        //get the percentage of the player's health compared with MAX_HEALTH
         float percentage = hp*100f/MAX_HEALTH;
         String result = "";
 
@@ -146,6 +184,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         return result;
     }
 
+    /**
+     * Return the color of the health bar depending on the player's hp
+     * @param hp : the health of the player
+     * @return Color: the color of the healthbar
+     */
     private Color getHealthColor(float hp){
         if(hp < 0){
             return Color.BLACK;
@@ -162,6 +205,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         this.currentAnimation = currentAnimation;
     }
 
+    /**
+     * Make the player move in a certain direction if he's currently still and the button is pressed
+     * @param orientation : the Orientation of the movement
+     * @param b : The button associated with the movement
+     */
     private void moveIfPressed(Orientation orientation, Button b){
         setCurrentAnimation(orientatedAnimation[getAnimationIndexFromOrientation(getOrientation())]);
         if(b.isDown()) {
@@ -193,6 +241,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     }
 
  */
+    /**
+     * Return the index of the movement animation associated with a given Orientation
+     * @param orientation : the given orientation
+     * @return int index
+     */
     private int getAnimationIndexFromOrientation(Orientation orientation){
         return switch (orientation){
             case DOWN -> 0;
@@ -201,8 +254,15 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             case RIGHT -> 3;
         };
     }
-    public void updateHp(float damage){
-        hp -= damage;
+
+    /**
+     * update the player health while keeping it non-negative and below MAX_HEALTH
+     * @param deltaHP : the amount of hp to add to the player health
+     */
+    public void updateHp(float deltaHP){
+        hp += deltaHP;
+        hp = Float.max(hp,0f);
+        hp = Float.min(hp, MAX_HEALTH);
     }
 
     @Override
@@ -321,7 +381,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         public void interactWith(Heart heart, boolean isCellInteraction) {
             if(isCellInteraction){
                 heart.collect();
-                hp += 2.0f;
+                updateHp(4.0f);
             }
 
         }
