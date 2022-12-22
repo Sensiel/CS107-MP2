@@ -15,7 +15,8 @@ public class ICRogueBehavior extends AreaBehavior{
         NONE(0,false), // Should never been used except in the toType method
         GROUND(-16777216, true), // traversable
         WALL(-14112955, false), // non traversable
-        HOLE(-65536, true);
+        HOLE(-65536, true),
+        ICE(-12390401, true);
 
         //The type of the Cell, represented by an integer
         final int type;

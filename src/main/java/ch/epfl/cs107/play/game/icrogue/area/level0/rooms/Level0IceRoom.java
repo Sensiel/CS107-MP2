@@ -4,15 +4,20 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
-public class Level0HeartRoom extends Level0ItemRoom{
+public class Level0IceRoom extends Level0ItemRoom{
 
     /**
-     * Default Level0HeartRoom constructor
+     * Default Level0IceRoom constructor
      * @param roomCoordinates ( DiscreteCoordinates ) : the coordinates of the room
      */
-    public Level0HeartRoom(DiscreteCoordinates roomCoordinates) {
+    public Level0IceRoom(DiscreteCoordinates roomCoordinates) {
         super(roomCoordinates);
-        Heart heart = new Heart(this, Orientation.LEFT,new DiscreteCoordinates(2,4));
+        Heart heart = new Heart(this, Orientation.LEFT,new DiscreteCoordinates(2,3));
         addItem(heart);
+    }
+
+    @Override
+    protected String getBehaviorName() {
+        return "icrogue/Level0IceRoom";
     }
 }

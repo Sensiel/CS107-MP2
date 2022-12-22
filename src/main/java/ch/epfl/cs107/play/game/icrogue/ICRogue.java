@@ -28,7 +28,10 @@ public class ICRogue extends AreaGame {
      * Method initialising the current Level
      */
     private void initLevel(){
+        //Uncomment the generation method you want
         currentLevel = new Level0();
+        //currentLevel = new Level0(false);
+        //currentLevel = new Level0(new int[]{4,3,2,1,2,3});
         currentLevel.addAreas(this);
         setCurrentArea(currentLevel.getStartRoomTitle(), true);
         player = new ICRoguePlayer(getCurrentArea(), Orientation.UP, currentLevel.getPlayerStartingPos(),"zelda/player");

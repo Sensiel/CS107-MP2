@@ -11,11 +11,12 @@ public class Level0 extends Level {
      * Enum reprensenting the different room's type and their distribution in the case of a random generation of Level0
      */
     private enum RoomType {
-        TURRET_ROOM(10),
-        STAFF_ROOM(4),
-        BOSS_KEY(2),
+        TURRET_ROOM(3),
+        STAFF_ROOM(1),
+        BOSS_KEY(1),
         SPAWN(1),
-        NORMAL(15);
+        NORMAL(1),
+        ICE_ROOM(0);
 
         // the number of a certain type of room
         private final int nbRoom;
@@ -82,6 +83,11 @@ public class Level0 extends Level {
         setStartRoomTitle(getStartRoomCoord());
     }
 
+    public Level0(int[] roomDistribution){
+        super(true, defaultPlayerStartingPos, roomDistribution, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setStartRoomTitle(getStartRoomCoord());
+    }
+
     @Override
     protected void generateFixedMap() {
         generateFinalMap();
@@ -99,7 +105,8 @@ public class Level0 extends Level {
             }
             case NORMAL -> currentRoom = new Level0Room(coord);
             case BOSS_KEY -> currentRoom = new Level0KeyRoom(coord, BOSS_KEY_ID);
-            case STAFF_ROOM -> currentRoom = new Level0HeartRoom(coord);
+            case STAFF_ROOM -> currentRoom = new Level0StaffRoom(coord);
+            case ICE_ROOM -> currentRoom = new Level0IceRoom(coord);
             default -> currentRoom = new Level0Room(coord);
         }
         setRoom(coord, currentRoom);

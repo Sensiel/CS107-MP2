@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
@@ -65,6 +66,9 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
     //player's current health
     private float hp;
 
+    // boolean telling if the player is on ice
+    private boolean onIce;
+
 
     //Old constructor for sprite ( if you uncomment this one please comment the other, and do the modification in the update method)
     /*
@@ -119,6 +123,7 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         keyIds = new ArrayList<>();
 
         isChangingRoom = false;
+        onIce = false;
 
         // Setting up health and health bar
         hp = MAX_HEALTH;
@@ -158,10 +163,16 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         super.update(deltaTime);
         Keyboard keyboard= getOwnerArea().getKeyboard();
 
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        boolean canMove = true;
+        if(onIce && !isDisplacementOccurs()){
+            canMove = !move(MOVE_DURATION/2);
+        }
+        if(canMove){
+            moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        }
 
         //If the player is still, reset the animation
         if(!isDisplacementOccurs())
@@ -378,6 +389,19 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         }
 
         @Override
+        public void interactWith(ICRogueBehavior.ICRogueCell cell, boolean isCellInteraction){
+            if(isCellInteraction){
+                if(cell.getCellType().equals(ICRogueBehavior.ICRogueCellType.ICE)){
+                    onIce = true;
+                }
+                else{
+                    onIce = false;
+                }
+            }
+
+        }
+
+        @Override
         public void interactWith(Staff staff, boolean isCellInteraction) {
             if(!isCellInteraction){
                 ownStaff = true;
@@ -420,7 +444,6 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
                 heart.collect();
                 updateHp(4.0f);
             }
-
         }
     }
 }

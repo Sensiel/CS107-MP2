@@ -1,0 +1,24 @@
+CONCEPTION : 
+
+Aucune classe supplémentaire majeure n'a été rajoutée.
+
+MODIFICATION :
+
+Les méthodes setUpConnector et setUpLockedConnector dans Level.java n'ont plus pour but d'initaliser les connecteurs d'une salle donnée, mais d'initialiser les connecteurs menant à une salle donnée.
+Ainsi, il suffit d'appeller setUpLockedConnector sur la salle du boss afin de créer la totalité des portes verrouillées.
+
+EXTENSIONS : 
+
+Une barre de vie a été rajouté; elle s'affiche au dessus du joueur et se vide / change de couleur au fur et à mesure que le joueur perds des points de vie
+Elle est implémentée dans la classe ICRoguePlayer et les deux méthodes majeures qui en découlent sont getHealthBar() et getHealthColor()
+----------
+Une salle a été rajouté, présentant un behavior différent, une nouvelle cell et un nouvel item :
+La salle est Level0IceRoom, et elle présente une salle remplie de glace.
+La plaque de glace est une cellule qui, lorsque le joueur marche dessus, fait glisser ce dernier sur plusieurs glace, rendant ardu son déplacement dans la salle
+Le coeur redonne de la vie au joueur.
+
+Le coeur sera à un endroit de la salle, et le joueur devra se déplacer avec précaution pour pouvoir le collecter et resoudre la salle.
+
+Les classes ainsi créées sont : 
+Heart ( héritant de Item )
+Level0IceRoom ( héritant de Level0ItemRoom )
