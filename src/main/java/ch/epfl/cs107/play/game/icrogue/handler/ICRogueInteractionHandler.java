@@ -4,12 +4,14 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
 import ch.epfl.cs107.play.game.icrogue.actor.Connector;
 import ch.epfl.cs107.play.game.icrogue.actor.ICRoguePlayer;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.AngryBall;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Arrow;
+import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Bomb;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 
 /**
@@ -47,6 +49,12 @@ public interface ICRogueInteractionHandler extends AreaInteractionVisitor {
 
     }
     default void interactWith(Heart heart, boolean isCellInteraction){
+
+    }
+    default void interactWith(AngryBall angryBall, boolean isCellInteraction){
+
+    }
+    default void interactWith(Bomb bomb, boolean isCellInteraction){
 
     }
 

@@ -5,16 +5,17 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.icrogue.ICRogueBehavior;
+import ch.epfl.cs107.play.game.icrogue.actor.enemies.AngryBall;
 import ch.epfl.cs107.play.game.icrogue.actor.enemies.Turret;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Cherry;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Heart;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Key;
 import ch.epfl.cs107.play.game.icrogue.actor.items.Staff;
+import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Bomb;
 import ch.epfl.cs107.play.game.icrogue.actor.projectiles.Fire;
 import ch.epfl.cs107.play.game.icrogue.area.ICRogueRoom;
 import ch.epfl.cs107.play.game.icrogue.handler.ICRogueInteractionHandler;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -184,6 +185,11 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
         if(keyboard.get(Keyboard.X).isDown() && ownStaff()){
             Fire fire = new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates());
             fire.enterArea(getOwnerArea(), getCurrentMainCellCoordinates());
+        }
+        //If the player press on the button S, a bomb is created
+        if(keyboard.get(Keyboard.S).isPressed()){
+            Bomb bomb= new Bomb(getOwnerArea(),getOrientation(),getCurrentMainCellCoordinates());
+            bomb.enterArea(getOwnerArea(),getCurrentMainCellCoordinates());
         }
 
 
@@ -443,6 +449,13 @@ public class ICRoguePlayer extends ICRogueActor implements Interactor {
             if(isCellInteraction){
                 heart.collect();
                 updateHp(4.0f);
+            }
+        }
+
+        @Override
+        public void interactWith(AngryBall angryBall, boolean isCellInteraction) {
+            if(isCellInteraction ){
+                updateHp(-AngryBall.ANGRYBALL_DAMAGE);
             }
         }
     }
